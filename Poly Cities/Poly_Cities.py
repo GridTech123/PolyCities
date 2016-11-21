@@ -56,15 +56,15 @@ try:
     water_img = pygame.image.load('water.png')
     grassGUI_img = pygame.image.load('grassGUI.png')
     #loading animation
-    #os.chdir('loading animation')
-    #loading1 = pygame.image.load("loading1.png")
-    #loading2 = pygame.image.load("loading2.png")
-    #loading3 = pygame.image.load("loading3.png")
-    #loading4 = pygame.image.load("loading4.png")
-    #loading5 = pygame.image.load("loading5.png")
-    #loading6 = pygame.image.load("loading6.png")
-    #loading7 = pygame.image.load("loading7.png")
-    #os.chdir('..')
+    os.chdir('loading animation')
+    loading1 = pygame.image.load("loading1.png")
+    loading2 = pygame.image.load("loading2.png")
+    loading3 = pygame.image.load("loading3.png")
+    loading4 = pygame.image.load("loading4.png")
+    loading5 = pygame.image.load("loading5.png")
+    loading6 = pygame.image.load("loading6.png")
+    loading7 = pygame.image.load("loading7.png")
+    os.chdir('..')
     os.chdir('..')
 except:
     pyError.newError('poly cities Error', 'There was an error on start', 'there was an issue getting images', 20, 20) 
@@ -86,7 +86,7 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.0'
+ver = 'alpha 1.0.1'
 
 #pygame start
 try:
@@ -158,7 +158,9 @@ while True:
             play_text = menu_font.render(('New'), True, black)
             screen.blit(play_text,(sx/2 - 200 ,160))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                rendermode = 'load setup'
+                rendermode = 'new'
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    pygame.time.delay(100) 
         else:
             pygame.draw.rect(screen, gray2, [sx/2 - 200, 160, 400, 100])
             play_text = menu_font.render(('New'), True, black)
@@ -185,6 +187,17 @@ while True:
             pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
             play_text = menu_font.render(('Settings'), True, black)
             screen.blit(play_text,(sx/2 - 200 ,400))
+
+        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 520 and my < 620:
+            pygame.draw.rect(screen, gray, [sx/2 - 200, 520, 400, 100])
+            play_text = menu_font.render(('Quit'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,520))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                sys.exit()
+        else:
+            pygame.draw.rect(screen, gray2, [sx/2 - 200, 520, 400, 100])
+            play_text = menu_font.render(('Quit'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,520))
 
     if rendermode == 'settings':
         try:
@@ -259,40 +272,36 @@ while True:
     if rendermode == 'new':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
         screen.blit(main_back1,((mx-2655)/10,0))
-        menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
-        screen.blit(menu2_img, (100, 100))        
-        if mx > 100 and mx < 160 and my > 100 and my < 160:
-            pygame.draw.rect(screen, gray, [100, 100, 60, 60])
-            plus_text = menu_font.render(('<'), True, black)
-            screen.blit(plus_text,(110 ,110))
+        title_text = title_font.render(('Poly City'), True, black)
+        screen.blit(title_text,(sx/2 - 250,10))
+        screen.blit(menu1_img, (sx/2 - 250, 150))
+        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 280 and my < 380:
+            pygame.draw.rect(screen, gray, [sx/2 - 200, 280, 400, 100])
+            play_text = menu_font.render(('Sandbox Mode'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,280))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                rendermode = 0
+                rendermode = 'load sandbox'
         else:
-            pygame.draw.rect(screen, gray2, [100, 100, 60, 60])
-            plus_text = menu_font.render(('<'), True, black)
-            screen.blit(plus_text,(110 ,110))
+            pygame.draw.rect(screen, gray2, [sx/2 - 200, 280, 400, 100])
+            play_text = menu_font.render(('Sandbox Mode'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,280))
 
-        if mx > 100 and mx < 160 and my > 2 and my < 260:
-            pygame.draw.rect(screen, gray, [100, 200, 60, 60])
-            plus_text = menu_font.render(('ok'), True, black)
-            screen.blit(plus_text,(110 ,210))
+        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 400 and my < 500:
+            pygame.draw.rect(screen, gray, [sx/2 - 200, 400, 400, 100])
+            play_text = menu_font.render(('Career Mode'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,400))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                size = 900
-                renderClock = 0
-                loading_animation = 1
-                loading_back_x = 0
-                world = []
-                rendermode = 'load'
+                rendermode = 'load career'
         else:
-            pygame.draw.rect(screen, gray2, [100, 200, 60, 60])
-            plus_text = menu_font.render(('ok'), True, black)
-            screen.blit(plus_text,(110 ,210))
+            pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
+            play_text = menu_font.render(('Career Mode'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,400))
 
 #    if rendermode == 'load':
 #        screen.blit(main_back1,(loading_back_x, 0))
 #        loading_back_x = loading_back_x - 5
 
-    if rendermode == 'load setup':
+    if rendermode == 'load sandbox':
         size = 900
         renderClock = 0
         loading_animation = 1
@@ -302,10 +311,23 @@ while True:
         worldSavAngle = ['']
         rendermode = 'load'
 
+    if rendermode == 'load career':
+        size = 900
+        renderClock = 0
+        loading_animation = 1
+        loading_back_x = 0
+        world = ['']
+        worldSav = ['']
+        worldSavAngle = ['']
+        rendermode = 'load'
+        population = 0
+        money = 100,000
+
     if rendermode == 'load':
             plus_text = menu_font.render((''+str(renderClock)+str('/')+str(size)), True, black)
             screen.blit(plus_text,(sx / 2 , sy - 100))        
 
+    #load
     if rendermode == 'load':
         if renderClock < size:
             world.append(grass_img)
@@ -315,6 +337,7 @@ while True:
         else:
             rendermode = 'game'
 
+    #game
     if rendermode == 'game':
         render = True
         renderX = 0
@@ -392,10 +415,14 @@ while True:
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
                 if mx > 10 and mx < 100 and my > sy - 95 and my < sy - 5:
                     guiMenu = 'road'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100)
             screen.blit(terraformGUI_img, (110, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
                 if mx > 110 and mx < 200 and my > sy - 95 and my < sy - 5:
                     guiMenu = 'terraform'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100)  
         elif guiMenu == 'road':
             screen.blit(backGUI_img, (10, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
@@ -403,6 +430,8 @@ while True:
                     guiMenu = 'home'
                     place = 'none'
                     placeSav = 'none'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100) 
             screen.blit(roadGUI2_img, (110, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
                 if mx > 110 and mx < 200 and my > sy - 95 and my < sy - 5:
@@ -420,6 +449,8 @@ while True:
                     guiMenu = 'home'
                     place = 'none'
                     placeSav = 'none'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100)
             screen.blit(waterGUI_img, (110, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
                 if mx > 110 and mx < 200 and my > sy - 95 and my < sy - 5:
@@ -481,6 +512,7 @@ while True:
         f.write(''+str(gamex)+str('\n'))
         f.write(''+str(gamey)+str('\n'))
         f.write(''+str(cityName)+str('\n'))
+        f.write(''+str(ver)+str('\n'))
         f.write('-'+str('\n'))
         f.write('Save info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)+str('\n'))
         f.write('was saved on: '+str(time.strftime('%I:%M %p %m/%d/%y')+str('in version: ')+str(ver)))
@@ -527,6 +559,11 @@ while True:
         gamex = +int(lines[2])
         gamey = +int(lines[3])
         cityName = lines[4]
+        try:
+            if not lines[5] == ver:
+                pyError.newError('load/save message', 'Old Save', 'this is an old save from version ' +str(lines[5]) +str(' it may not work in version ') +str(ver), 100, 20)
+        except:
+            pyError.newError('load/save message', 'Old Save', 'this is an old save' +str(' it may not work in version ') +str(ver), 100, 20)
         f.flush()
         f.close()
         saveLoad = ''
