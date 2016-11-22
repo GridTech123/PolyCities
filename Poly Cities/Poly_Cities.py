@@ -55,6 +55,9 @@ try:
     waterGUI_img = pygame.image.load('waterGUI.png')
     water_img = pygame.image.load('water.png')
     grassGUI_img = pygame.image.load('grassGUI.png')
+    topGuiBar_img = pygame.image.load('topGuiBar.png')
+    topGuiBarData_img = pygame.image.load('topGuiData.png')
+    topGuiBarMoney_img = pygame.image.load('topGuiLogoMoney.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -86,7 +89,7 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.1'
+ver = 'alpha 1.0.2'
 
 #pygame start
 try:
@@ -310,6 +313,8 @@ while True:
         worldSav = ['']
         worldSavAngle = ['']
         rendermode = 'load'
+        population = 0
+        money = 'unlimited'
 
     if rendermode == 'load career':
         size = 900
@@ -321,7 +326,7 @@ while True:
         worldSavAngle = ['']
         rendermode = 'load'
         population = 0
-        money = 100,000
+        money = 100000
 
     if rendermode == 'load':
             plus_text = menu_font.render((''+str(renderClock)+str('/')+str(size)), True, black)
@@ -410,6 +415,10 @@ while True:
         
         GUIbar = pygame.transform.scale(GUIbar, (sx, 200))
         screen.blit(GUIbar, (0, sy - 100))
+        screen.blit(topGuiBar_img, (sx / 2 - 450, 0))
+        screen.blit(topGuiBarData_img, (sx / 2 - 405, 5))
+        screen.blit(menu_font.render(''+str(money), True, blue2), (sx / 2 - 330, 20))
+        screen.blit(topGuiBarMoney_img, (sx / 2 - 400, 10))
         if guiMenu == 'home':
             screen.blit(roadGUI_img, (10, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
@@ -559,11 +568,6 @@ while True:
         gamex = +int(lines[2])
         gamey = +int(lines[3])
         cityName = lines[4]
-        try:
-            if not lines[5] == ver:
-                pyError.newError('load/save message', 'Old Save', 'this is an old save from version ' +str(lines[5]) +str(' it may not work in version ') +str(ver), 100, 20)
-        except:
-            pyError.newError('load/save message', 'Old Save', 'this is an old save' +str(' it may not work in version ') +str(ver), 100, 20)
         f.flush()
         f.close()
         saveLoad = ''
