@@ -1,3 +1,7 @@
+#def
+def settingsUpdate():
+    print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
+
 try:
     import pygame 
     from pygame import *
@@ -89,7 +93,8 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.2'
+ver = 'alpha 1.0.3'
+renderer = 'r1'
 
 #pygame start
 try:
@@ -147,8 +152,6 @@ while True:
     screen.fill(gray)
     clock.tick(200)
     mx, my = pygame.mouse.get_pos()
-
-    fps_text = menu_font.render('FPS:' +str (clock.get_fps()), True, white)
 
     if rendermode == 0:
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -230,7 +233,7 @@ while True:
                     sx = sx - 100
                     sy = sy - 100
                     screen = pygame.display.set_mode([sx,sy], mode)
-                    print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+                    settingsUpdate()
                     pygame.time.wait(100)
             else:
                 pygame.draw.rect(screen, gray2, [190, 200, 60, 60])
@@ -243,7 +246,7 @@ while True:
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     sx = sx + 100
                     sy = sy + 100
-                    print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+                    settingsUpdate()
                     screen = pygame.display.set_mode([sx,sy], mode)
                     pygame.time.wait(100)
             else:
@@ -259,7 +262,7 @@ while True:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
                         mode = RESIZABLE
                         screen = pygame.display.set_mode([sx,sy], mode)
-                        print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+                        settingsUpdate()
                         pygame.time.wait(100)
             else:
                 screen.blit(unchecked_img, (350, 300))
@@ -267,10 +270,28 @@ while True:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
                         mode = FULLSCREEN
                         screen = pygame.display.set_mode([sx,sy], mode)
-                        print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+                        settingsUpdate()
+                        pygame.time.wait(100)
+
+            fs = menu_font.render('USE EXPERIMENTAL R2 RENDERER:', True, black)
+            screen.blit(fs, (100, 390))
+            if renderer == 'r2':
+                screen.blit(checked_img, (700, 390))
+                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderer = 'r1'
+                        settingsUpdate()
+                        pygame.time.wait(100)
+            else:
+                screen.blit(unchecked_img, (700, 390))
+                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderer = 'r2'
+                        settingsUpdate()
                         pygame.time.wait(100)
         except:
             print 'Error updating settings: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+
 
     if rendermode == 'new':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -344,31 +365,61 @@ while True:
 
     #game
     if rendermode == 'game':
-        render = True
-        renderX = 0
-        xClock = 0
-        renderY = 0
-        renderClock = 1
-        while render == True:
-                try:
-                    screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
-                    if not place == 'none':
-                        if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
-                            screen.blit(outline_img,(renderX + gamex, renderY + gamey))
-                            if event.type == MOUSEBUTTONDOWN and event.button == 1:   
-                                if not my > sy - 100:
-                                    world[renderClock] = place
-                                    worldSav[renderClock] = ''+str(placeSav)
-                                    worldSavAngle[renderClock] = angle
-                    renderX = renderX + 250
-                    xClock = xClock + 1
-                    renderClock = renderClock + 1
-                    if xClock == 30:
-                        renderX = 0
-                        xClock = 0
-                        renderY = renderY + 250
-                except:
-                    render = False
+        if renderer == 'r1':
+            render = True
+            renderX = 0
+            xClock = 0
+            renderY = 0
+            renderClock = 1
+            while render == True:
+                    try:
+                        screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
+                        if not place == 'none':
+                            if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
+                                screen.blit(outline_img,(renderX + gamex, renderY + gamey))
+                                if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                                    if not my > sy - 100:
+                                        world[renderClock] = place
+                                        worldSav[renderClock] = ''+str(placeSav)
+                                        worldSavAngle[renderClock] = angle
+                        renderX = renderX + 250
+                        xClock = xClock + 1
+                        renderClock = renderClock + 1
+                        if xClock == 30:
+                            renderX = 0
+                            xClock = 0
+                            renderY = renderY + 250
+                    except:
+                        render = False
+
+        if renderer == 'r2':
+            render = True
+            renderX = 0
+            xClock = 0
+            renderY = 0
+            renderClock = 1
+            while render == True:
+                    try:
+                        if renderX + gamex > 0 and renderX + gamex < sx - 250 and renderY + gamey > 0 and renderY + gamey < sy - 250:
+                            screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
+                            if not place == 'none':
+                                if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
+                                    screen.blit(outline_img,(renderX + gamex, renderY + gamey))
+                                    if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                                        if not my > sy - 100:
+                                            world[renderClock] = place
+                                            worldSav[renderClock] = ''+str(placeSav)
+                                            worldSavAngle[renderClock] = angle
+                        world[renderClock]
+                        renderX = renderX + 250
+                        xClock = xClock + 1
+                        renderClock = renderClock + 1
+                        if xClock == 30:
+                            renderX = 0
+                            xClock = 0
+                            renderY = renderY + 250
+                    except:
+                        render = False
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:   
@@ -574,5 +625,5 @@ while True:
         os.chdir('..')
         rendermode = 'game'
 
-    screen.blit(fps_text, (0,0))
+    #print clock.get_fps()
     pygame.display.update()
