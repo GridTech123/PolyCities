@@ -1,3 +1,5 @@
+#fixed renderer
+
 #def
 def settingsUpdate():
     print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
@@ -93,7 +95,7 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.3'
+ver = 'alpha 1.0.4'
 renderer = 'r1'
 
 #pygame start
@@ -296,30 +298,40 @@ while True:
     if rendermode == 'new':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
         screen.blit(main_back1,((mx-2655)/10,0))
-        title_text = title_font.render(('Poly City'), True, black)
-        screen.blit(title_text,(sx/2 - 250,10))
-        screen.blit(menu1_img, (sx/2 - 250, 150))
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 280 and my < 380:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 280, 400, 100])
-            play_text = menu_font.render(('Sandbox Mode'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,280))
+        menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
+        screen.blit(menu2_img, (100, 100))
+        if mx > 100 and mx < 160 and my > 100 and my < 160:
+            pygame.draw.rect(screen, gray, [100, 100, 60, 60])
+            plus_text = menu_font.render(('<'), True, black)
+            screen.blit(plus_text,(110 ,110))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 0
+        else:
+            pygame.draw.rect(screen, gray2, [100, 120, 60, 60])
+            plus_text = menu_font.render(('<'), True, black)
+            screen.blit(plus_text,(110 ,110))
+
+        if mx > sx / 2 - 72 and mx < sx / 2 + 72 and my > 210 and my < 270:
+            pygame.draw.rect(screen, gray, [sx / 2 - 72, 210, 150, 60])
+            plus_text = menu_font.render(('Sandbox'), True, black)
+            screen.blit(plus_text,(sx / 2 - 72 ,210))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load sandbox'
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 280, 400, 100])
-            play_text = menu_font.render(('Sandbox Mode'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,280))
+            pygame.draw.rect(screen, gray2, [sx / 2 - 72, 210, 150, 60])
+            plus_text = menu_font.render(('Sandbox'), True, black)
+            screen.blit(plus_text,(sx / 2 - 72, 210))
 
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 400 and my < 500:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 400, 400, 100])
-            play_text = menu_font.render(('Career Mode'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,400))
+        if mx > sx / 2 - 72 and mx < sx / 2 + 72 and my > 310 and my < 370:
+            pygame.draw.rect(screen, gray, [sx / 2 - 72, 310, 150, 60])
+            plus_text = menu_font.render(('Career'), True, black)
+            screen.blit(plus_text,(sx / 2 - 72 ,310))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load career'
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
-            play_text = menu_font.render(('Career Mode'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,400))
+            pygame.draw.rect(screen, gray2, [sx / 2 - 72, 310, 150, 60])
+            plus_text = menu_font.render(('Career'), True, black)
+            screen.blit(plus_text,(sx / 2 - 72, 310))
 
 #    if rendermode == 'load':
 #        screen.blit(main_back1,(loading_back_x, 0))
@@ -400,7 +412,7 @@ while True:
             renderClock = 1
             while render == True:
                     try:
-                        if renderX + gamex > 0 and renderX + gamex < sx - 250 and renderY + gamey > 0 and renderY + gamey < sy - 250:
+                        if renderX + gamex > 0 - 250 and renderX + gamex < sx and renderY + gamey > 0 - 250 and renderY + gamey < sy:
                             screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
                             if not place == 'none':
                                 if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
@@ -470,6 +482,9 @@ while True:
         screen.blit(topGuiBarData_img, (sx / 2 - 405, 5))
         screen.blit(menu_font.render(''+str(money), True, blue2), (sx / 2 - 330, 20))
         screen.blit(topGuiBarMoney_img, (sx / 2 - 400, 10))
+        screen.blit(topGuiBarData_img, (sx / 2 - 105, 5))
+        screen.blit(menu_font.render(''+str(population), True, blue2), (sx / 2 - 30, 20))
+        screen.blit(topGuiBarMoney_img, (sx / 2 - 100, 10))
         if guiMenu == 'home':
             screen.blit(roadGUI_img, (10, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
