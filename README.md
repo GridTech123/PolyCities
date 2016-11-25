@@ -8,7 +8,7 @@ We have built a new save/load system so you can see how it works. Just open the
 
 #improvments from my other games
 Poly Cities works with any resolution <br>
-Improved FPS with the new rendering engine
+Get high FPS by using the new R2 exerimental renderer from the settings menu
 
 #Download
 You can download an installer from my website (www.gridtech.weebly.com)
