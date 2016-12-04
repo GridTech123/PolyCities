@@ -1,5 +1,3 @@
-#fixed renderer
-
 #def
 def settingsUpdate():
     print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
@@ -16,6 +14,7 @@ try:
     import pyError
     from Tkinter import *
     from tkFileDialog import*
+    import random
 except:
     try:
         import pyError
@@ -95,7 +94,7 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.4'
+ver = 'alpha 1.0.4 pre-release'
 renderer = 'r1'
 
 #pygame start
@@ -307,7 +306,7 @@ while True:
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 0
         else:
-            pygame.draw.rect(screen, gray2, [100, 120, 60, 60])
+            pygame.draw.rect(screen, gray2, [100, 100, 60, 60])
             plus_text = menu_font.render(('<'), True, black)
             screen.blit(plus_text,(110 ,110))
 
@@ -361,19 +360,28 @@ while True:
         population = 0
         money = 100000
 
-    if rendermode == 'load':
-            plus_text = menu_font.render((''+str(renderClock)+str('/')+str(size)), True, black)
-            screen.blit(plus_text,(sx / 2 , sy - 100))        
-
     #load
     if rendermode == 'load':
         if renderClock < size:
+            loadRandom = random.randint(0,4)
             world.append(grass_img)
+            loading = 'grass_img'
             worldSav.append('grass_img')
             worldSavAngle.append(0)
             renderClock = renderClock + 1
         else:
             rendermode = 'game'
+
+    if rendermode == 'load':
+        if devMode == True:
+            screen.blit(menu_font.render('you are in DevMode', True, black),(sx / 2 - 100, sy / 2))  
+        else:
+            main_back1=pygame.transform.scale(main_back1, (sx, sy))
+            screen.blit(main_back1,(0,0))
+        pygame.draw.rect(screen, gray2, [100, sy - 270, 470, 60])
+        pygame.draw.rect(screen, blue2, [110, sy - 260, renderClock/2, 40])     
+        pygame.draw.rect(screen, gray2, [100, sy - 200, 470, 60])
+        screen.blit(menu_font.render('Loading: '+str(loading)+' '+str(renderClock), True, blue2),(110, sy - 190))
 
     #game
     if rendermode == 'game':
