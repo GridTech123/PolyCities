@@ -2,6 +2,52 @@
 def settingsUpdate():
     print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
 
+def reload():
+    if devMode == True:
+        try:
+            os.chdir('images')
+            main_back1 = pygame.image.load("main_backround1.jpg")
+            menu1_img = pygame.image.load("menu.png")
+            mouse = pygame.image.load("mouse.png")
+            mouse2 = pygame.image.load("mouse2.png")
+            menu2_img = pygame.image.load("menuBack.png")
+            checked_img = pygame.image.load("checked.png")
+            unchecked_img = pygame.image.load("unchecked.png")
+            grass1_img = pygame.image.load("grass1.png")
+            logo = pygame.image.load('logo.png')
+            GUIbar = pygame.image.load('GUIbar.png')
+            roadGUI_img = pygame.image.load('roadGUI.png')
+            roadGUI2_img = pygame.image.load('roadGUI2.png')
+            road_img = pygame.image.load('road.png')
+            backGUI_img = pygame.image.load('backGUI.png')
+            outline_img = pygame.image.load('outline.png')
+            roadTurnGUI_img = pygame.image.load('roadTurnGUI.png')
+            roadTurn_img = pygame.image.load('roadTurn.png')
+            terraformGUI_img = pygame.image.load('terraformGUI.png')
+            waterGUI_img = pygame.image.load('waterGUI.png')
+            water_img = pygame.image.load('water.png')
+            grassGUI_img = pygame.image.load('grassGUI.png')
+            topGuiBar_img = pygame.image.load('topGuiBar.png')
+            topGuiBarData_img = pygame.image.load('topGuiData.png')
+            topGuiBarMoney_img = pygame.image.load('topGuiLogoMoney.png')
+            tree1_img = pygame.image.load('tree1.png')
+            tree2_img = pygame.image.load('tree2.png')
+            grass2_img = pygame.image.load('grass2.png')
+            grass3_img = pygame.image.load('grass3.png')
+            #loading animation
+            os.chdir('loading animation')
+            loading1 = pygame.image.load("loading1.png")
+            loading2 = pygame.image.load("loading2.png")
+            loading3 = pygame.image.load("loading3.png")
+            loading4 = pygame.image.load("loading4.png")
+            loading5 = pygame.image.load("loading5.png")
+            loading6 = pygame.image.load("loading6.png")
+            loading7 = pygame.image.load("loading7.png")
+            os.chdir('..')
+            os.chdir('..')
+        except:
+            pyError.newError('poly cities Error', 'There was an error on start', 'there was an issue getting images', 20, 20) 
+
 try:
     import pygame 
     from pygame import *
@@ -46,7 +92,7 @@ try:
     menu2_img = pygame.image.load("menuBack.png")
     checked_img = pygame.image.load("checked.png")
     unchecked_img = pygame.image.load("unchecked.png")
-    grass_img = pygame.image.load("grass.png")
+    grass1_img = pygame.image.load("grass1.png")
     logo = pygame.image.load('logo.png')
     GUIbar = pygame.image.load('GUIbar.png')
     roadGUI_img = pygame.image.load('roadGUI.png')
@@ -63,6 +109,10 @@ try:
     topGuiBar_img = pygame.image.load('topGuiBar.png')
     topGuiBarData_img = pygame.image.load('topGuiData.png')
     topGuiBarMoney_img = pygame.image.load('topGuiLogoMoney.png')
+    tree1_img = pygame.image.load('tree1.png')
+    tree2_img = pygame.image.load('tree2.png')
+    grass2_img = pygame.image.load('grass2.png')
+    grass3_img = pygame.image.load('grass3.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -96,6 +146,7 @@ angle = 0
 cityName = ''
 ver = 'alpha 1.0.4 pre-release'
 renderer = 'r1'
+renderTrees = True
 
 #pygame start
 try:
@@ -290,6 +341,127 @@ while True:
                         renderer = 'r2'
                         settingsUpdate()
                         pygame.time.wait(100)
+
+            fs = menu_font.render('RENDER TREES:', True, black)
+            screen.blit(fs, (100, 480))
+            if renderTrees == True:
+                screen.blit(checked_img, (380, 480))
+                if mx > 380 and mx < 440 and my > 480 and my < 540:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderTrees = False
+                        settingsUpdate()
+                        pygame.time.wait(100)
+            else:
+                screen.blit(unchecked_img, (380, 480))
+                if mx > 380 and mx < 440 and my > 480 and my < 540:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderTrees = True
+                        settingsUpdate()
+                        pygame.time.wait(100)
+        except:
+            print 'Error updating settings: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+
+    if rendermode == 'settings from pause':
+        try:
+            main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
+            screen.blit(main_back1,((mx-2655)/10,0))
+            menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
+            screen.blit(menu2_img, (100, 100))
+            if mx > 100 and mx < 160 and my > 100 and my < 160:
+                pygame.draw.rect(screen, gray, [100, 100, 60, 60])
+                plus_text = menu_font.render(('<'), True, black)
+                screen.blit(plus_text,(110 ,110))
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    rendermode = 'pause'
+            else:
+                pygame.draw.rect(screen, gray2, [100, 100, 60, 60])
+                plus_text = menu_font.render(('<'), True, black)
+                screen.blit(plus_text,(110 ,110))
+            res = menu_font.render('RES:', True, black)
+            screen.blit(res, (100, 200))
+            res = menu_font.render(''+str(sx)+str('X')+str(sy), True, black)
+            screen.blit(res, (280, 200))
+            if mx > 190 and mx < 260 and my > 200 and my < 260:
+                pygame.draw.rect(screen, gray, [190, 200, 60, 60])
+                plus_text = menu_font.render(('-'), True, black)
+                screen.blit(plus_text,(210 ,210))
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    sx = sx - 100
+                    sy = sy - 100
+                    screen = pygame.display.set_mode([sx,sy], mode)
+                    settingsUpdate()
+                    pygame.time.wait(100)
+            else:
+                pygame.draw.rect(screen, gray2, [190, 200, 60, 60])
+                plus_text = menu_font.render(('-'), True, black)
+                screen.blit(plus_text,(210 ,210))
+            if mx > 490 and mx < 550 and my > 200 and my < 260:
+                pygame.draw.rect(screen, gray, [490, 200, 60, 60])
+                plus_text = menu_font.render(('+'), True, black)
+                screen.blit(plus_text,(510 ,210))
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    sx = sx + 100
+                    sy = sy + 100
+                    settingsUpdate()
+                    screen = pygame.display.set_mode([sx,sy], mode)
+                    pygame.time.wait(100)
+            else:
+                pygame.draw.rect(screen, gray2, [490, 200, 60, 60])
+                plus_text = menu_font.render(('+'), True, black)
+                screen.blit(plus_text,(510 ,210))
+
+            fs = menu_font.render('FULLSCREEN:', True, black)
+            screen.blit(fs, (100, 300))
+            if mode == FULLSCREEN:
+                screen.blit(checked_img, (350, 300))
+                if mx > 350 and mx < 410 and my > 300 and my < 360:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        mode = RESIZABLE
+                        screen = pygame.display.set_mode([sx,sy], mode)
+                        settingsUpdate()
+                        pygame.time.wait(100)
+            else:
+                screen.blit(unchecked_img, (350, 300))
+                if mx > 350 and mx < 410 and my > 300 and my < 360:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        mode = FULLSCREEN
+                        screen = pygame.display.set_mode([sx,sy], mode)
+                        settingsUpdate()
+                        pygame.time.wait(100)
+
+            fs = menu_font.render('USE EXPERIMENTAL R2 RENDERER:', True, black)
+            screen.blit(fs, (100, 390))
+            if renderer == 'r2':
+                screen.blit(checked_img, (700, 390))
+                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderer = 'r1'
+                        settingsUpdate()
+                        pygame.time.wait(100)
+            else:
+                screen.blit(unchecked_img, (700, 390))
+                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderer = 'r2'
+                        settingsUpdate()
+                        pygame.time.wait(100)
+
+            fs = menu_font.render('RENDER TREES:', True, black)
+            screen.blit(fs, (100, 480))
+            if renderTrees == True:
+                screen.blit(checked_img, (380, 480))
+                if mx > 380 and mx < 440 and my > 480 and my < 540:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderTrees = False
+                        settingsUpdate()
+                        pygame.time.wait(100)
+            else:
+                screen.blit(unchecked_img, (380, 480))
+                if mx > 380 and mx < 440 and my > 480 and my < 540:
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        renderTrees = True
+                        settingsUpdate()
+                        pygame.time.wait(100)
         except:
             print 'Error updating settings: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
 
@@ -363,25 +535,68 @@ while True:
     #load
     if rendermode == 'load':
         if renderClock < size:
-            loadRandom = random.randint(0,4)
-            world.append(grass_img)
-            loading = 'grass_img'
-            worldSav.append('grass_img')
-            worldSavAngle.append(0)
+            loadRandom = random.randint(0,2)
+            if loadRandom == 0:
+                world.append(grass1_img)
+                loading = 'grass1_img'
+                worldSav.append('grass1_img')
+                worldSavAngle.append(0)
+            if loadRandom == 1:
+                world.append(grass2_img)
+                loading = 'grass2_img'
+                worldSav.append('grass2_img')
+                worldSavAngle.append(0)
+            if loadRandom == 2:
+                world.append(grass3_img)
+                loading = 'grass3_img'
+                worldSav.append('grass3_img')
+                worldSavAngle.append(0)
+            renderClock = renderClock + 1
+        else:
+            rendermode = 'load 2'
+
+    if rendermode == 'load 2':
+        loading = 'starting load 2'
+        trees = ['']
+        treeOffsetY = [0]
+        treeOffsetX = [0]
+        rendermode = 'load 3'
+
+    if rendermode == 'load 3':
+        if renderClock < size * 2:
+            loadRandom = random.randint(0,2)
+            if loadRandom == 0:
+                trees.append('none')
+                treeOffsetX.append((random.randint(0,50)))
+                treeOffsetY.append((random.randint(0,100)))
+                loading = 'tree_none'
+#                worldSavTree.append('tree1')
+            if loadRandom == 1:
+                trees.append(tree1_img)
+                treeOffsetX.append((random.randint(0,50)))
+                treeOffsetY.append((random.randint(0,100)))
+                loading = 'tree1'
+#                worldSavTree.append('tree1')
+            if loadRandom == 2:
+                trees.append(tree2_img)
+                treeOffsetX.append((random.randint(0,50)))
+                treeOffsetY.append((random.randint(0,100)))
+                loading = 'tree2'
+#                worldSavTree.append('tree1')
             renderClock = renderClock + 1
         else:
             rendermode = 'game'
 
-    if rendermode == 'load':
+    if rendermode == 'load' or rendermode == 'load 2' or rendermode == 'load 3':
         if devMode == True:
             screen.blit(menu_font.render('you are in DevMode', True, black),(sx / 2 - 100, sy / 2))  
         else:
             main_back1=pygame.transform.scale(main_back1, (sx, sy))
             screen.blit(main_back1,(0,0))
-        pygame.draw.rect(screen, gray2, [100, sy - 270, 470, 60])
-        pygame.draw.rect(screen, blue2, [110, sy - 260, renderClock/2, 40])     
-        pygame.draw.rect(screen, gray2, [100, sy - 200, 470, 60])
-        screen.blit(menu_font.render('Loading: '+str(loading)+' '+str(renderClock), True, blue2),(110, sy - 190))
+        pygame.draw.rect(screen, gray2, [100, sy - 270, 620, 60])
+        pygame.draw.rect(screen, blue2, [110, sy - 260, renderClock/3, 40])     
+        pygame.draw.rect(screen, gray2, [100, sy - 200, 620, 60])
+        screen.blit(menu_font.render('Creating map tiles: '+str(loading), True, blue2),(110, sy - 190))
 
     #game
     if rendermode == 'game':
@@ -394,6 +609,14 @@ while True:
             while render == True:
                     try:
                         screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
+                        if not trees[renderClock] == 'none':
+                            if renderTrees == True:
+                                if world[renderClock] == grass1_img:
+                                    screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                elif world[renderClock] == grass2_img:
+                                    screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                elif world[renderClock] == grass3_img:
+                                    screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
                         if not place == 'none':
                             if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
                                 screen.blit(outline_img,(renderX + gamex, renderY + gamey))
@@ -422,6 +645,14 @@ while True:
                     try:
                         if renderX + gamex > 0 - 250 and renderX + gamex < sx and renderY + gamey > 0 - 250 and renderY + gamey < sy:
                             screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
+                            if not trees[renderClock] == 'none':
+                                if renderTrees == True:
+                                    if world[renderClock] == grass1_img:
+                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                    elif world[renderClock] == grass2_img:
+                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                    elif world[renderClock] == grass3_img:
+                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
                             if not place == 'none':
                                 if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
                                     screen.blit(outline_img,(renderX + gamex, renderY + gamey))
@@ -468,6 +699,10 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_MINUS:   
                 size = size - 10
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LCTRL:    
+                reload()
 
         if not place == 'none':
             if event.type == pygame.KEYDOWN:
@@ -542,8 +777,8 @@ while True:
             screen.blit(grassGUI_img, (210, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
                 if mx > 210 and mx < 300 and my > sy - 95 and my < sy - 5:
-                    place = grass_img
-                    placeSav = grass_img
+                    place = grass1_img
+                    placeSav = grass1_img
 
     if rendermode == 'pause':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -577,15 +812,27 @@ while True:
 
         if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 400 and my < 500:
             pygame.draw.rect(screen, gray, [sx/2 - 200, 400, 400, 100])
-            play_text = menu_font.render(('Quit'), True, black)
+            play_text = menu_font.render(('Settings'), True, black)
             screen.blit(play_text,(sx/2 - 200 ,400))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 'settings from pause'
+                pygame.time.delay(100)
+        else:
+            pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
+            play_text = menu_font.render(('Settings'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,400))
+
+        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 520 and my < 620:
+            pygame.draw.rect(screen, gray, [sx/2 - 200, 520, 400, 100])
+            play_text = menu_font.render(('Quit'), True, black)
+            screen.blit(play_text,(sx/2 - 200 ,520))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 0
                 pygame.time.delay(100)
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
+            pygame.draw.rect(screen, gray2, [sx/2 - 200, 520, 400, 100])
             play_text = menu_font.render(('Quit'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,400))
+            screen.blit(play_text,(sx/2 - 200 ,520))
 
     if saveLoad == 'save':
         os.chdir('saves')
@@ -629,8 +876,8 @@ while True:
             if worldCreate[worldClock] == " 'roadTurn_img'":
                 worldPlace = roadTurn_img
             #terraforming
-            if worldCreate[worldClock] == " 'grass_img'":
-                worldPlace = grass_img
+            if worldCreate[worldClock] == " 'grass1_img'":
+                worldPlace = grass1_img
             if worldCreate[worldClock] == " 'water_img'":
                 worldPlace = water_img
             worldSavAngle[worldClock].replace("[", '')
