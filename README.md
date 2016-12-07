@@ -11,4 +11,5 @@ Poly Cities works with any resolution <br>
 Get high FPS by using the new R2 exerimental renderer from the settings menu
 
 #Download
-You can download an installer from my website (www.gridtech.weebly.com)
+You can download an installer from my website (www.gridtech.weebly.com)<br>
+It is also in the download
