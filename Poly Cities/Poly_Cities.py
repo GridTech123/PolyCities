@@ -2,52 +2,6 @@
 def settingsUpdate():
     print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
 
-def reload():
-    if devMode == True:
-        try:
-            os.chdir('images')
-            main_back1 = pygame.image.load("main_backround1.jpg")
-            menu1_img = pygame.image.load("menu.png")
-            mouse = pygame.image.load("mouse.png")
-            mouse2 = pygame.image.load("mouse2.png")
-            menu2_img = pygame.image.load("menuBack.png")
-            checked_img = pygame.image.load("checked.png")
-            unchecked_img = pygame.image.load("unchecked.png")
-            grass1_img = pygame.image.load("grass1.png")
-            logo = pygame.image.load('logo.png')
-            GUIbar = pygame.image.load('GUIbar.png')
-            roadGUI_img = pygame.image.load('roadGUI.png')
-            roadGUI2_img = pygame.image.load('roadGUI2.png')
-            road_img = pygame.image.load('road.png')
-            backGUI_img = pygame.image.load('backGUI.png')
-            outline_img = pygame.image.load('outline.png')
-            roadTurnGUI_img = pygame.image.load('roadTurnGUI.png')
-            roadTurn_img = pygame.image.load('roadTurn.png')
-            terraformGUI_img = pygame.image.load('terraformGUI.png')
-            waterGUI_img = pygame.image.load('waterGUI.png')
-            water_img = pygame.image.load('water.png')
-            grassGUI_img = pygame.image.load('grassGUI.png')
-            topGuiBar_img = pygame.image.load('topGuiBar.png')
-            topGuiBarData_img = pygame.image.load('topGuiData.png')
-            topGuiBarMoney_img = pygame.image.load('topGuiLogoMoney.png')
-            tree1_img = pygame.image.load('tree1.png')
-            tree2_img = pygame.image.load('tree2.png')
-            grass2_img = pygame.image.load('grass2.png')
-            grass3_img = pygame.image.load('grass3.png')
-            #loading animation
-            os.chdir('loading animation')
-            loading1 = pygame.image.load("loading1.png")
-            loading2 = pygame.image.load("loading2.png")
-            loading3 = pygame.image.load("loading3.png")
-            loading4 = pygame.image.load("loading4.png")
-            loading5 = pygame.image.load("loading5.png")
-            loading6 = pygame.image.load("loading6.png")
-            loading7 = pygame.image.load("loading7.png")
-            os.chdir('..')
-            os.chdir('..')
-        except:
-            pyError.newError('poly cities Error', 'There was an error on start', 'there was an issue getting images', 20, 20) 
-
 try:
     import pygame 
     from pygame import *
@@ -81,6 +35,7 @@ green2 = (0, 153, 0)
 green3 = (0,100,0)
 gray = (158, 156, 166)
 gray2 = (69, 67, 68)
+gray3 = (140, 138, 139)
 
 #images
 try:
@@ -113,6 +68,10 @@ try:
     tree2_img = pygame.image.load('tree2.png')
     grass2_img = pygame.image.load('grass2.png')
     grass3_img = pygame.image.load('grass3.png')
+    midwest_img = pygame.image.load('theMidwest.png')
+    west_img = pygame.image.load('theWest.png')
+    notheast_img = pygame.image.load('theNortheast.png')
+    south_img = pygame.image.load('theSouth.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -471,6 +430,15 @@ while True:
         screen.blit(main_back1,((mx-2655)/10,0))
         menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
         screen.blit(menu2_img, (100, 100))
+        screen.blit(west_img,(sx/2-580, 200))
+        screen.blit(midwest_img,(sx/2-351, 225))
+        screen.blit(notheast_img,(sx/2 - 97, 220))
+        screen.blit(south_img,(sx/2 - 385, 350))
+        cs_text = big_font.render(('COMMING SOON'), True, red)
+        screen.blit(cs_text,(sx / 2 - 580 ,350))
+        pygame.draw.rect(screen, gray3, [sx / 2 + 350, 160, 250, 320])
+        gm_text = menu_font.render(('gamemode:'), True, black)
+        screen.blit(gm_text,(sx / 2 + 370, 160))
         if mx > 100 and mx < 160 and my > 100 and my < 160:
             pygame.draw.rect(screen, gray, [100, 100, 60, 60])
             plus_text = menu_font.render(('<'), True, black)
@@ -482,31 +450,31 @@ while True:
             plus_text = menu_font.render(('<'), True, black)
             screen.blit(plus_text,(110 ,110))
 
-        if mx > sx / 2 - 72 and mx < sx / 2 + 72 and my > 210 and my < 270:
-            pygame.draw.rect(screen, gray, [sx / 2 - 72, 210, 150, 60])
+        if mx > sx / 2 + 400 and mx < sx / 2 + 550 and my > 270 and my < 320:
+            pygame.draw.rect(screen, gray, [sx / 2 + 400, 270, 150, 60])
             plus_text = menu_font.render(('Sandbox'), True, black)
-            screen.blit(plus_text,(sx / 2 - 72 ,210))
+            screen.blit(plus_text,(sx / 2 + 400 ,270))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load sandbox'
         else:
-            pygame.draw.rect(screen, gray2, [sx / 2 - 72, 210, 150, 60])
+            pygame.draw.rect(screen, gray2, [sx / 2 + 400, 270, 150, 60])
             plus_text = menu_font.render(('Sandbox'), True, black)
-            screen.blit(plus_text,(sx / 2 - 72, 210))
+            screen.blit(plus_text,(sx / 2 + 400, 270))
 
-        if mx > sx / 2 - 72 and mx < sx / 2 + 72 and my > 310 and my < 370:
-            pygame.draw.rect(screen, gray, [sx / 2 - 72, 310, 150, 60])
+        if mx > sx / 2 + 400 and mx < sx / 2 + 550 and my > 370 and my < 420:
+            pygame.draw.rect(screen, gray, [sx / 2 + 400, 370, 150, 60])
             plus_text = menu_font.render(('Career'), True, black)
-            screen.blit(plus_text,(sx / 2 - 72 ,310))
+            screen.blit(plus_text,(sx / 2 + 400 ,370))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load career'
         else:
-            pygame.draw.rect(screen, gray2, [sx / 2 - 72, 310, 150, 60])
+            pygame.draw.rect(screen, gray2, [sx / 2 + 400, 370, 150, 60])
             plus_text = menu_font.render(('Career'), True, black)
-            screen.blit(plus_text,(sx / 2 - 72, 310))
+            screen.blit(plus_text,(sx / 2 + 400, 370))
 
-#    if rendermode == 'load':
-#        screen.blit(main_back1,(loading_back_x, 0))
-#        loading_back_x = loading_back_x - 5
+    #if rendermode == 'load':
+    #    screen.blit(main_back1,(loading_back_x, 0))
+    #    loading_back_x = loading_back_x - 5
 
     if rendermode == 'load sandbox':
         size = 900
