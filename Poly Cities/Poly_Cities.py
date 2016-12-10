@@ -2,6 +2,23 @@
 def settingsUpdate():
     print 'New Settings info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode) +str(' |renderer=') +str(renderer)
 
+def message(text, x, y, xs, ys):
+    global OpenMessage
+    OpenMessage = True
+    if OpenMessage == True:
+        pygame.draw.rect(screen, blue3, [x, y, xs, ys])
+        screen.blit(menu_font.render(text, True, gray), (x, y))
+        if mx > x and mx < x + 100 and my > y+70 and my < y+60+70:
+            pygame.draw.rect(screen, gray, [x, y + 70, 100, 60])
+            plus_text = menu_font.render(('Ok'), True, black)
+            screen.blit(plus_text,(x, y + 70))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                OpenMessage = False
+        else:
+            pygame.draw.rect(screen, gray2, [x, y + 70, 100, 60])
+            plus_text = menu_font.render(('Ok'), True, black)
+            screen.blit(plus_text,(x, y + 70))
+
 try:
     import pygame 
     from pygame import *
@@ -72,6 +89,11 @@ try:
     west_img = pygame.image.load('theWest.png')
     notheast_img = pygame.image.load('theNortheast.png')
     south_img = pygame.image.load('theSouth.png')
+    midwestHover_img = pygame.image.load('theMidwestHover.png')
+    westHover_img = pygame.image.load('theWestHover.png')
+    notheastHover_img = pygame.image.load('theNortheastHover.png')
+    southHover_img = pygame.image.load('theSouthHover.png')
+    sand_img = pygame.image.load('sand.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -106,6 +128,8 @@ cityName = ''
 ver = 'alpha 1.0.4 pre-release'
 renderer = 'r1'
 renderTrees = True
+selected = False
+OpenMessage = False
 
 #pygame start
 try:
@@ -430,12 +454,64 @@ while True:
         screen.blit(main_back1,((mx-2655)/10,0))
         menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
         screen.blit(menu2_img, (100, 100))
-        screen.blit(west_img,(sx/2-580, 200))
-        screen.blit(midwest_img,(sx/2-351, 225))
-        screen.blit(notheast_img,(sx/2 - 97, 220))
-        screen.blit(south_img,(sx/2 - 385, 350))
-        cs_text = big_font.render(('COMMING SOON'), True, red)
-        screen.blit(cs_text,(sx / 2 - 580 ,350))
+        if mx > sx/2-580 and mx < sx/2-580 + 210 and my > 200 and my < 200 + 280:
+            screen.blit(westHover_img,(sx/2-580, 200))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                selected = 'west'
+        else:
+            screen.blit(west_img,(sx/2-580, 200))
+
+        if mx > sx/2-351 and mx < sx/2-351 + 251 and my > 225 and my < 225 + 192:
+            screen.blit(midwestHover_img,(sx/2-351, 225))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                selected = 'midwest'
+        else:
+            screen.blit(midwest_img,(sx/2-351, 225))
+
+        if mx > sx/2-97 and mx < sx/2-97 + 127 and my > 220 and my < 220 + 134:
+            screen.blit(notheastHover_img,(sx/2-97, 220))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                selected = 'northeast'
+        else:
+            screen.blit(notheast_img,(sx/2-97, 220))
+
+        if mx > sx/2-355 and mx < sx/2-355 + 364 and my > 420 and my < 420 + 122:
+            screen.blit(southHover_img,(sx/2-385, 350))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                selected = 'south'
+        else:
+            screen.blit(south_img,(sx/2-385, 350))
+
+        pygame.draw.rect(screen, gray3, [sx/2-580-50, 600, 650, 300])
+        screen.blit(big_font.render(('Region Attributes'), True, black), (sx/2-580, 600))
+
+        if not selected == False:
+            if selected == 'west':
+                screen.blit(westHover_img,(sx/2-580, 200))
+                screen.blit(menu_font.render('-Mountains', True, gray), (sx/2-580, 680))
+                screen.blit(menu_font.render('-Oceans', True, gray), (sx/2-580, 710))
+                screen.blit(menu_font.render('-Plains', True, gray), (sx/2-580, 740))
+            if selected == 'midwest':
+                screen.blit(midwestHover_img,(sx/2-351, 225))
+                screen.blit(menu_font.render('-Rolling hills', True, gray), (sx/2-580, 680))
+                screen.blit(menu_font.render('-Plains', True, gray), (sx/2-580, 710))
+                screen.blit(menu_font.render('-Forests', True, gray), (sx/2-580, 740))
+                screen.blit(menu_font.render('-Rivers', True, gray), (sx/2-580, 770))
+            if selected == 'northeast':
+                screen.blit(notheastHover_img,(sx/2-97, 220))
+                screen.blit(menu_font.render('-Coastal Plains', True, gray), (sx/2-580, 680))
+                screen.blit(menu_font.render('-Mountains', True, gray), (sx/2-580, 710))
+                screen.blit(menu_font.render('-Forests', True, gray), (sx/2-580, 740))
+            if selected == 'south':
+                screen.blit(southHover_img,(sx/2-385, 350))
+                screen.blit(menu_font.render('-Oceans', True, gray), (sx/2-580, 680))
+                screen.blit(menu_font.render('-Rivers', True, gray), (sx/2-580, 710))
+                screen.blit(menu_font.render('-Deserts', True, gray), (sx/2-580, 740))
+        else:
+            screen.blit(menu_font.render('-Pick a region', True, red), (sx/2-580, 680))
+
+        #cs_text = big_font.render(('COMMING SOON'), True, red)
+        #screen.blit(cs_text,(sx / 2 - 580 ,350))
         pygame.draw.rect(screen, gray3, [sx / 2 + 350, 160, 250, 320])
         gm_text = menu_font.render(('gamemode:'), True, black)
         screen.blit(gm_text,(sx / 2 + 370, 160))
@@ -472,6 +548,9 @@ while True:
             plus_text = menu_font.render(('Career'), True, black)
             screen.blit(plus_text,(sx / 2 + 400, 370))
 
+        if OpenMessage == True:
+            message('choose a region', sx / 2 - 250, sy / 2 - 100, 500, 200)
+
     #if rendermode == 'load':
     #    screen.blit(main_back1,(loading_back_x, 0))
     #    loading_back_x = loading_back_x - 5
@@ -502,26 +581,138 @@ while True:
 
     #load
     if rendermode == 'load':
-        if renderClock < size:
-            loadRandom = random.randint(0,2)
-            if loadRandom == 0:
-                world.append(grass1_img)
-                loading = 'grass1_img'
-                worldSav.append('grass1_img')
-                worldSavAngle.append(0)
-            if loadRandom == 1:
-                world.append(grass2_img)
-                loading = 'grass2_img'
-                worldSav.append('grass2_img')
-                worldSavAngle.append(0)
-            if loadRandom == 2:
-                world.append(grass3_img)
-                loading = 'grass3_img'
-                worldSav.append('grass3_img')
-                worldSavAngle.append(0)
-            renderClock = renderClock + 1
+        if selected == 'west':
+            if renderClock < size:
+                loadRandom = random.randint(0,4)
+                if loadRandom == 0:
+                    world.append(grass1_img)
+                    loading = 'grass1_img'
+                    worldSav.append('grass1_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 1:
+                    world.append(grass2_img)
+                    loading = 'grass2_img'
+                    worldSav.append('grass2_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 2:
+                    world.append(grass3_img)
+                    loading = 'grass3_img'
+                    worldSav.append('grass3_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 3:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 4:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'load 2'
+        elif selected == 'midwest':
+            if renderClock < size:
+                loadRandom = random.randint(0,4)
+                if loadRandom == 0:
+                    world.append(grass1_img)
+                    loading = 'grass1_img'
+                    worldSav.append('grass1_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 1:
+                    world.append(grass2_img)
+                    loading = 'grass2_img'
+                    worldSav.append('grass2_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 2:
+                    world.append(grass3_img)
+                    loading = 'grass3_img'
+                    worldSav.append('grass3_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 3:
+                    world.append(grass3_img)
+                    loading = 'grass3_img'
+                    worldSav.append('grass3_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 4:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'load 2'
+        elif selected == 'northeast':
+            if renderClock < size:
+                loadRandom = random.randint(0,4)
+                if loadRandom == 0:
+                    world.append(grass1_img)
+                    loading = 'grass1_img'
+                    worldSav.append('grass1_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 1:
+                    world.append(grass2_img)
+                    loading = 'grass2_img'
+                    worldSav.append('grass2_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 2:
+                    world.append(grass3_img)
+                    loading = 'grass3_img'
+                    worldSav.append('grass3_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 3:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 4:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'load 2'
+        elif selected == 'south':
+            if renderClock < size:
+                loadRandom = random.randint(0,5)
+                if loadRandom == 0:
+                    world.append(sand_img)
+                    loading = 'sand_img'
+                    worldSav.append('sand_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 1:
+                    world.append(sand_img)
+                    loading = 'sand_img'
+                    worldSav.append('sand_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 2:
+                    world.append(sand_img)
+                    loading = 'sand_img'
+                    worldSav.append('sand_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 3:
+                    world.append(grass2_img)
+                    loading = 'grass2_img'
+                    worldSav.append('grass2_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 4:
+                    world.append(grass1_img)
+                    loading = 'grass1_img'
+                    worldSav.append('grass1_img')
+                    worldSavAngle.append(0)
+                if loadRandom == 5:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'load 2'
         else:
-            rendermode = 'load 2'
+            rendermode = 'new'
+            OpenMessage = True
 
     if rendermode == 'load 2':
         loading = 'starting load 2'
@@ -531,29 +722,133 @@ while True:
         rendermode = 'load 3'
 
     if rendermode == 'load 3':
-        if renderClock < size * 2:
-            loadRandom = random.randint(0,2)
-            if loadRandom == 0:
-                trees.append('none')
-                treeOffsetX.append((random.randint(0,50)))
-                treeOffsetY.append((random.randint(0,100)))
-                loading = 'tree_none'
-#                worldSavTree.append('tree1')
-            if loadRandom == 1:
-                trees.append(tree1_img)
-                treeOffsetX.append((random.randint(0,50)))
-                treeOffsetY.append((random.randint(0,100)))
-                loading = 'tree1'
-#                worldSavTree.append('tree1')
-            if loadRandom == 2:
-                trees.append(tree2_img)
-                treeOffsetX.append((random.randint(0,50)))
-                treeOffsetY.append((random.randint(0,100)))
-                loading = 'tree2'
-#                worldSavTree.append('tree1')
-            renderClock = renderClock + 1
-        else:
-            rendermode = 'game'
+        if selected == 'west':
+            if renderClock < size * 2:
+                loadRandom = random.randint(0,3)
+                if loadRandom == 0:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 1:
+                    trees.append(tree2_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree2'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 2:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 3:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'game'
+        if selected == 'midwest':
+            if renderClock < size * 2:
+                loadRandom = random.randint(0,3)
+                if loadRandom == 0:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 1:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 2:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 3:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'game'
+        if selected == 'northeast':
+            if renderClock < size * 2:
+                loadRandom = random.randint(0,3)
+                if loadRandom == 0:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 1:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 2:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 3:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'game'
+
+        if selected == 'south':
+            if renderClock < size * 2:
+                loadRandom = random.randint(0,4)
+                if loadRandom == 0:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 1:
+                    trees.append(tree2_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree2'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 2:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 3:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 4:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'game'
 
     if rendermode == 'load' or rendermode == 'load 2' or rendermode == 'load 3':
         if devMode == True:
