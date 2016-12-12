@@ -119,6 +119,8 @@ gamey = -3750
 devMode = False
 pickle_in = open('devMode.pcr', 'r')
 devMode = pickle.load(pickle_in)
+pickle_in = open('visualizations.pcr', 'r')
+visualizations = pickle.load(pickle_in)
 place = 'none'
 placeSav = 'none'
 saveLoad = 0
@@ -905,17 +907,54 @@ while True:
             renderY = 0
             renderClock = 1
             while render == True:
+                if visualizations == True:
+                    try:
+                        if renderX + gamex > 250 - 250 and renderX + gamex < sx - 250 and renderY + gamey > 250 and renderY + gamey < sy - 250:
+                            screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
+                            if not trees[renderClock] == 'none':
+                                if renderTrees == True:
+                                    if world[renderClock] == grass1_img:
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 250 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx - 250 and (renderY + gamey)+treeOffsetY[renderClock] > 250 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy - 250:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                    elif world[renderClock] == grass2_img:
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 250 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx - 250 and (renderY + gamey)+treeOffsetY[renderClock] > 250 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy - 250:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                    elif world[renderClock] == grass3_img:
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 250 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx - 250 and (renderY + gamey)+treeOffsetY[renderClock] > 250 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy - 250:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                            if not place == 'none':
+                                if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
+                                    screen.blit(outline_img,(renderX + gamex, renderY + gamey))
+                                    if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                                        if not my > sy - 100:
+                                            world[renderClock] = place
+                                            worldSav[renderClock] = ''+str(placeSav)
+                                            worldSavAngle[renderClock] = angle
+                        world[renderClock]
+                        renderX = renderX + 250
+                        xClock = xClock + 1
+                        renderClock = renderClock + 1
+                        if xClock == 30:
+                            renderX = 0
+                            xClock = 0
+                            renderY = renderY + 250
+                    except:
+                        render = False
+                else:
                     try:
                         if renderX + gamex > 0 - 250 and renderX + gamex < sx and renderY + gamey > 0 - 250 and renderY + gamey < sy:
                             screen.blit(world[renderClock], (renderX + gamex, renderY + gamey))
                             if not trees[renderClock] == 'none':
                                 if renderTrees == True:
                                     if world[renderClock] == grass1_img:
-                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 0 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx and (renderY + gamey)+treeOffsetY[renderClock] > 0 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
                                     elif world[renderClock] == grass2_img:
-                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 0 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx and (renderY + gamey)+treeOffsetY[renderClock] > 0 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
                                     elif world[renderClock] == grass3_img:
-                                        screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
+                                        if (renderX + gamex)+treeOffsetX[renderClock] > 0 - 250 and (renderX + gamex)+treeOffsetX[renderClock] < sx and (renderY + gamey)+treeOffsetY[renderClock] > 0 - 250 and (renderY + gamey)+treeOffsetY[renderClock] < sy:
+                                            screen.blit(trees[renderClock], ((renderX + gamex)+treeOffsetX[renderClock], (renderY + gamey)+treeOffsetY[renderClock]))
                             if not place == 'none':
                                 if mx > renderX + gamex and mx < renderX + gamex + 250 and my > renderY + gamey and my < renderY + gamey + 250:
                                     screen.blit(outline_img,(renderX + gamex, renderY + gamey))
