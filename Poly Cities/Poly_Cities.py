@@ -20,24 +20,27 @@ def message(text, x, y, xs, ys):
             screen.blit(plus_text,(x, y + 70))
 
 try:
-    import pygame 
+    import os
+    import pygame
     from pygame import *
     from pygame.locals import *
     import random
     import sys
     import pickle
     import time
-    import os
     import pyError
     from Tkinter import *
     from tkFileDialog import*
     import random
 except:
-    try:
-        import pyError
-        pyError.newError('poly cities Error', 'There was an error on start', 'there was an issue importing something, make sure to use exe', 20, 20)
-    except:
-        print 'ERROR: pyError does not exist'
+    os.chdir('html')
+    os.startfile('missingModule.html')
+
+try:
+    import pyError
+except:
+    os.chdir('html')
+    os.startfile('missingPyError.html')
 
 #colors
 white = (255, 255, 255)
@@ -94,6 +97,9 @@ try:
     notheastHover_img = pygame.image.load('theNortheastHover.png')
     southHover_img = pygame.image.load('theSouthHover.png')
     sand_img = pygame.image.load('sand.png')
+    buildingsGUI = pygame.image.load('buildingsGUI.png')
+    smallHouseGUI_img = pygame.image.load('smallHouseGUI.png')
+    smallHouse_img = pygame.image.load('smallHouse.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -127,11 +133,16 @@ saveLoad = 0
 guiMenu = 'home'
 angle = 0
 cityName = ''
-ver = 'alpha 1.0.4 pre-release'
-renderer = 'r1'
+ver = 'alpha 1.1.0 pre-release'
+renderer = 'r2'
 renderTrees = True
 selected = False
 OpenMessage = False
+benchmark = 'loading screens'
+loadingPer = 0
+loading = ''
+loadingList = []
+alphaMenu = True
 
 #pygame start
 try:
@@ -174,6 +185,16 @@ title_font = pygame.font.SysFont('Calibri', 100)
 #window settings
 pygame.display.set_icon(logo)
 pygame.display.set_caption("Poly City")
+
+#first time
+try:
+    pickle_in = open('firstStart.pcr', 'r')
+    rendermode = 0
+except:
+    pickle_out = open('firstStart.pcr', 'w')
+    pickle.dump(True, pickle_out)
+    pickle_out.close()
+    rendermode = 0
 
 #program
 while True:
@@ -242,8 +263,75 @@ while True:
             play_text = menu_font.render(('Quit'), True, black)
             screen.blit(play_text,(sx/2 - 200 ,520))
 
+        if alphaMenu == True:
+            pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
+            screen.blit(menu_font.render('Remember:', True, gray), (sx / 2 - 325, sy / 2 - 100))
+            screen.blit(menu_font.render('Poly Cities is in alpha remember', True, gray), (sx / 2 - 325, sy / 2 - 100 + 30))
+            screen.blit(menu_font.render('that there are bugs and there are', True, gray), (sx / 2 - 325, sy / 2 - 100 + 60))
+            screen.blit(menu_font.render('lots to be added to the game.', True, gray), (sx / 2 - 325, sy / 2 - 100 + 90))
+            if mx > sx / 2 - 325 + 10 and mx < sx / 2 - 325 + 10 + 100 and my > sy / 2 - 100 + 130 and my < sy / 2 - 100 + 130 + 60:
+                pygame.draw.rect(screen, gray, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+                plus_text = menu_font.render(('Ok'), True, black)
+                screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    alphaMenu = False
+            else:
+                pygame.draw.rect(screen, gray2, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+                plus_text = menu_font.render(('Ok'), True, black)
+                screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+
+    if rendermode == 'firstStart':
+        pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
+        screen.blit(menu_font.render('It seems to be your first time here,', True, gray), (sx / 2 - 325, sy / 2 - 100))
+        screen.blit(menu_font.render('would you like us to run a benchmark', True, gray), (sx / 2 - 325, sy / 2 - 100 + 30))
+        screen.blit(menu_font.render('so we can select the best settings for', True, gray), (sx / 2 - 325, sy / 2 - 100 + 60))
+        screen.blit(menu_font.render('your computer', True, gray), (sx / 2 - 325, sy / 2 - 100 + 90))
+        if mx > sx / 2 - 325 + 10 and mx < sx / 2 - 325 + 10 + 100 and my > sy / 2 - 100 + 130 and my < sy / 2 - 100 + 130 + 60:
+            pygame.draw.rect(screen, gray, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+            plus_text = menu_font.render(('Ok'), True, black)
+            screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 'benchmark'
+        else:
+            pygame.draw.rect(screen, gray2, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+            plus_text = menu_font.render(('Ok'), True, black)
+            screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+
+        if mx > sx / 2 - 325 + 650 - 110 and mx < sx / 2 - 325 + 650 - 110 + 100 and my > sy / 2 - 100 + 130 and my < sy / 2 - 100 + 130 + 60:
+            pygame.draw.rect(screen, gray, [sx / 2 - 325 + 650 - 110 , sy / 2 - 100 + 130, 100, 60])
+            plus_text = menu_font.render(('No'), True, black)
+            screen.blit(plus_text,(sx / 2 - 325 + 650 - 110, sy / 2 - 100 + 130))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 0
+        else:
+            pygame.draw.rect(screen, gray2, [sx / 2 - 325 + 650 - 110, sy / 2 - 100 + 130, 100, 60])
+            plus_text = menu_font.render(('No'), True, black)
+            screen.blit(plus_text,(sx / 2 - 325 + 650 - 110, sy / 2 - 100 + 130))
+
+    if rendermode == 'benchmark':
+        if devMode == True:
+            screen.blit(menu_font.render('you are in DevMode', True, black),(sx / 2 - 100, sy / 2))  
+        else:
+            main_back1=pygame.transform.scale(main_back1, (sx, sy))
+            screen.blit(main_back1,(0,0))
+        pygame.draw.rect(screen, gray2, [100, sy - 270, 620, 60])
+        pygame.draw.rect(screen, blue2, [110, sy - 260, loadingPer, 40])     
+        pygame.draw.rect(screen, gray2, [100, sy - 200, 620, 60])
+        screen.blit(menu_font.render('Benchmarking: '+str(loading), True, blue2),(110, sy - 190))
+
+    if rendermode == 'benchmark':
+        if benchmark == 'loading screens':
+            if len(loadingList) < 11:
+                loading = 'loading screens'
+                loadingPer = 100
+                loadingList.append(clock.get_fps())
+            else:
+                loadingFPS = (loadingList[1] + loadingList[2] + loadingList[3] + loadingList[4] + loadingList[5] + loadingList[6] + loadingList[7] + loadingList[8] + loadingList[9] + loadingList[10]) / 10
+                loadingList = []
+                benchmark = 'rendering'
+
     if rendermode == 'settings':
-        try:
+        #try:
             main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
             screen.blit(main_back1,((mx-2655)/10,0))
             menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
@@ -310,20 +398,20 @@ while True:
                         settingsUpdate()
                         pygame.time.wait(100)
 
-            fs = menu_font.render('USE EXPERIMENTAL R2 RENDERER:', True, black)
+            fs = menu_font.render('USE OLD R1 RENDERER:', True, black)
             screen.blit(fs, (100, 390))
-            if renderer == 'r2':
-                screen.blit(checked_img, (700, 390))
-                if mx > 700 and mx < 760 and my > 390 and my < 450:
+            if renderer == 'r1':
+                screen.blit(checked_img, (500, 390))
+                if mx > 500 and mx < 560 and my > 390 and my < 450:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        renderer = 'r1'
+                        renderer = 'r2'
                         settingsUpdate()
                         pygame.time.wait(100)
             else:
-                screen.blit(unchecked_img, (700, 390))
-                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                screen.blit(unchecked_img, (500, 390))
+                if mx > 500 and mx < 560 and my > 390 and my < 450:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        renderer = 'r2'
+                        renderer = 'r1'
                         settingsUpdate()
                         pygame.time.wait(100)
 
@@ -343,8 +431,21 @@ while True:
                         renderTrees = True
                         settingsUpdate()
                         pygame.time.wait(100)
-        except:
-            print 'Error updating settings: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
+
+            if mx > 100 and mx < 370 and my > 570 and my < 630:
+                pygame.draw.rect(screen, gray, [100, 570, 270, 60])
+                plus_text = menu_font.render(('Run Benchmark'), True, black)
+                screen.blit(plus_text,(100, 570))
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    os.startfile('benchmarkStarter.py')   
+                    sys.exit()
+            else:
+                pygame.draw.rect(screen, gray2, [100, 570, 270, 60])
+                plus_text = menu_font.render(('Run Benchmark'), True, black)
+                screen.blit(plus_text,(100, 570))
+
+        #except:
+        #    print 'Error updating settings: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)
 
     if rendermode == 'settings from pause':
         try:
@@ -414,20 +515,20 @@ while True:
                         settingsUpdate()
                         pygame.time.wait(100)
 
-            fs = menu_font.render('USE EXPERIMENTAL R2 RENDERER:', True, black)
+            fs = menu_font.render('USE OLD R1 RENDERER:', True, black)
             screen.blit(fs, (100, 390))
-            if renderer == 'r2':
-                screen.blit(checked_img, (700, 390))
-                if mx > 700 and mx < 760 and my > 390 and my < 450:
+            if renderer == 'r1':
+                screen.blit(checked_img, (500, 390))
+                if mx > 500 and mx < 560 and my > 390 and my < 450:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        renderer = 'r1'
+                        renderer = 'r2'
                         settingsUpdate()
                         pygame.time.wait(100)
             else:
-                screen.blit(unchecked_img, (700, 390))
-                if mx > 700 and mx < 760 and my > 390 and my < 450:
+                screen.blit(unchecked_img, (500, 390))
+                if mx > 500 and mx < 560 and my > 390 and my < 450:
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        renderer = 'r2'
+                        renderer = 'r1'
                         settingsUpdate()
                         pygame.time.wait(100)
 
@@ -1043,6 +1144,12 @@ while True:
                     guiMenu = 'terraform'
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
                         pygame.time.delay(100)  
+            screen.blit(buildingsGUI, (210, sy - 95))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                if mx > 210 and mx < 300 and my > sy - 95 and my < sy - 5:
+                    guiMenu = 'buildings'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100)
         elif guiMenu == 'road':
             screen.blit(backGUI_img, (10, sy - 95))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:   
@@ -1081,6 +1188,20 @@ while True:
                 if mx > 210 and mx < 300 and my > sy - 95 and my < sy - 5:
                     place = grass1_img
                     placeSav = grass1_img
+        elif guiMenu == 'buildings':
+            screen.blit(backGUI_img, (10, sy - 95))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                if mx > 10 and mx < 100 and my > sy - 95 and my < sy - 5:
+                    guiMenu = 'home'
+                    place = 'none'
+                    placeSav = 'none'
+                    if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                        pygame.time.delay(100) 
+            screen.blit(smallHouseGUI_img, (110, sy - 95))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:   
+                if mx > 110 and mx < 200 and my > sy - 95 and my < sy - 5:
+                    place = smallHouse_img
+                    placeSav = 'smallHouse_img'
 
     if rendermode == 'pause':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -1137,22 +1258,41 @@ while True:
             screen.blit(play_text,(sx/2 - 200 ,520))
 
     if saveLoad == 'save':
-        os.chdir('saves')
-        f = open(time.strftime('%I-%M-%S %p %m-%d-%y')+str('.sav'), 'w')
-        f.write(''+str(worldSav)+str('\n')) 
-        f.write(''+str(worldSavAngle)+str('\n'))
-        f.write(''+str(gamex)+str('\n'))
-        f.write(''+str(gamey)+str('\n'))
-        f.write(''+str(cityName)+str('\n'))
-        f.write(''+str(ver)+str('\n'))
-        f.write('-'+str('\n'))
-        f.write('Save info: SX=' +str(sx) +str(' |SY=') +str(sy) +str(' |SR=') +str(wsx) +str('X') +str(wsy) + str(' |Mode=') +str(mode) +str(' |devMode=') +str(devMode)+str('\n'))
-        f.write('was saved on: '+str(time.strftime('%I:%M %p %m/%d/%y')+str('in version: ')+str(ver)))
-        f.flush()
-        f.close()
-        saveLoad = ''
-        os.chdir('..')
         rendermode = 'game'
+        os.chdir('saves')
+        os.chdir('saveData')
+        saveTime = time.strftime('%I-%M-%S %p %m-%d-%y')
+        try:
+            os.mkdir(saveTime)
+        except:
+            print ''
+        os.chdir(saveTime)
+
+        pickle_out = open('world.savDat', 'w')
+        pickle.dump(worldSav, pickle_out)
+        pickle_out.close()
+
+        #pickle_out = open('worldAngle.savDat', 'w')
+        #pickle.dump(worldSavAngle, pickle_out)
+        #pickle_out.close()
+
+        pickle_out = open('population.savDat', 'w')
+        pickle.dump(population, pickle_out)
+        pickle_out.close()
+
+        pickle_out = open('money.savDat', 'w')
+        pickle.dump(money, pickle_out)
+        pickle_out.close()
+
+        os.chdir('..')
+        os.chdir('..')
+        
+        pickle_out = open(saveTime+'.sav', 'w')
+        pickle.dump("/saveData/"+str(saveTime), pickle_out)
+        pickle_out.close()
+
+        os.chdir('..')
+        saveLoad = 0
 
     if saveLoad == 'load':
         os.chdir('saves')
@@ -1173,24 +1313,29 @@ while True:
         while worldClock < len(worldCreate) - 1:
             worldCreate[worldClock].replace("[", '')
             #roads
+            print worldCreate[worldClock]
             if worldCreate[worldClock] == " 'road_img'":
-                worldPlace = road_img
+                worldPlace = pygame.transform.rotate(road_img, +int(worldSavAngle[worldClock]))
             if worldCreate[worldClock] == " 'roadTurn_img'":
-                worldPlace = roadTurn_img
+                worldPlace = pygame.transform.rotate(roadTurn_img, +int(worldSavAngle[worldClock]))
             #terraforming
-            if worldCreate[worldClock] == " 'grass1_img'":
-                worldPlace = grass1_img
+            if worldCreate[worldClock] == " 'grass_img'":
+                worldPlace = pygame.transform.rotate(grass1_img, +int(worldSavAngle[worldClock]))
             if worldCreate[worldClock] == " 'water_img'":
-                worldPlace = water_img
+                worldPlace = pygame.transform.rotate(water_img, +int(worldSavAngle[worldClock]))
             worldSavAngle[worldClock].replace("[", '')
             worldSavAngle[worldClock].replace('"', '')
             worldSavAngle[worldClock].replace("'", '')
-            worldPlace = pygame.transform.rotate(worldPlace, +int(worldSavAngle[worldClock]))
+            #worldPlace = pygame.transform.rotate(worldPlace, +int(worldSavAngle[worldClock]))
+            worldPlace = (grass1_img)
             world.append(worldPlace)
             worldClock = worldClock + 1
+        print world
         gamex = +int(lines[2])
         gamey = +int(lines[3])
         cityName = lines[4]
+        money = 0
+        population = 0
         f.flush()
         f.close()
         saveLoad = ''
