@@ -42,6 +42,8 @@ except:
     os.chdir('html')
     os.startfile('missingPyError.html')
 
+clock = pygame.time.Clock()
+
 #colors
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -143,6 +145,10 @@ loadingPer = 0
 loading = ''
 loadingList = []
 alphaMenu = True
+customizeTrees = 50
+customizeWater = 50
+fpsMessage = True
+
 
 #pygame start
 try:
@@ -207,6 +213,7 @@ while True:
             sx, sy = screen.get_size()
 
     #settings
+    fps_text = menu_font.render('FPS:' +str (clock.get_fps()), True, white)
     screen.fill(gray)
     clock.tick(200)
     mx, my = pygame.mouse.get_pos()
@@ -585,8 +592,19 @@ while True:
         else:
             screen.blit(south_img,(sx/2-385, 350))
 
-        pygame.draw.rect(screen, gray3, [sx/2-580-50, 600, 650, 300])
+        pygame.draw.rect(screen, gray3, [sx/2-580-50, 600, 650, 200])
         screen.blit(big_font.render(('Region Attributes'), True, black), (sx/2-580, 600))
+
+        if mx > sx/2-580-50 and mx < sx/2-580-50+170 and my > 530 and my < 590:
+            pygame.draw.rect(screen, gray, [sx/2-580-50, 530, 170, 60])
+            plus_text = menu_font.render(('Customize'), True, black)
+            screen.blit(plus_text,(sx/2-580-50, 530))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 'customize'
+        else:
+            pygame.draw.rect(screen, gray2, [sx/2-580-50, 530, 170, 60])
+            plus_text = menu_font.render(('Customize'), True, black)
+            screen.blit(plus_text,(sx/2-580-50, 530))
 
         if not selected == False:
             if selected == 'west':
@@ -610,6 +628,9 @@ while True:
                 screen.blit(menu_font.render('-Oceans', True, gray), (sx/2-580, 680))
                 screen.blit(menu_font.render('-Rivers', True, gray), (sx/2-580, 710))
                 screen.blit(menu_font.render('-Deserts', True, gray), (sx/2-580, 740))
+            if selected == 'custom':
+                screen.blit(southHover_img,(sx/2-385, 350))
+                screen.blit(menu_font.render('-Custom', True, gray), (sx/2-580, 680))
         else:
             screen.blit(menu_font.render('-Pick a region', True, red), (sx/2-580, 680))
 
@@ -657,6 +678,89 @@ while True:
     #if rendermode == 'load':
     #    screen.blit(main_back1,(loading_back_x, 0))
     #    loading_back_x = loading_back_x - 5
+
+    if rendermode == 'customize':
+        main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
+        screen.blit(main_back1,((mx-2655)/10,0))
+        menu2_img = pygame.transform.scale(menu2_img, (sx - 200, sy - 200))
+        screen.blit(menu2_img, (100, 100))
+        if mx > 100 and mx < 160 and my > 100 and my < 160:
+            pygame.draw.rect(screen, gray, [100, 100, 60, 60])
+            plus_text = menu_font.render(('<'), True, black)
+            screen.blit(plus_text,(110 ,110))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 'new'
+        else:
+            pygame.draw.rect(screen, gray2, [100, 100, 60, 60])
+            plus_text = menu_font.render(('<'), True, black)
+            screen.blit(plus_text,(110 ,110))
+
+        screen.blit(menu_font.render(('Tree spawning:'), True, black),(100,200))
+        if mx > 350 and mx < 350 + 60 and my > 200 and my < 260:
+            pygame.draw.rect(screen, gray, [350, 200, 60, 60])
+            plus_text = menu_font.render(('-'), True, black)
+            screen.blit(plus_text,(365 ,210))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if customizeTrees > 0:
+                    customizeTrees = customizeTrees - 10
+        else:
+            pygame.draw.rect(screen, gray2, [350, 200, 60, 60])
+            plus_text = menu_font.render(('-'), True, black)
+            screen.blit(plus_text,(365 ,210))
+
+        screen.blit(menu_font.render((str(customizeTrees)+'/100'), True, black),(420,200))
+
+        if mx > 550 and mx < 550 + 60 and my > 200 and my < 260:
+            pygame.draw.rect(screen, gray, [550, 200, 60, 60])
+            plus_text = menu_font.render(('+'), True, black)
+            screen.blit(plus_text,(565 ,210))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if customizeTrees < 100:
+                    customizeTrees = customizeTrees + 10
+        else:
+            pygame.draw.rect(screen, gray2, [550, 200, 60, 60])
+            plus_text = menu_font.render(('+'), True, black)
+            screen.blit(plus_text,(565 ,210))
+
+        screen.blit(menu_font.render(('Water spawning:'), True, black),(100,300))
+        if mx > 350 and mx < 350 + 60 and my > 300 and my < 360:
+            pygame.draw.rect(screen, gray, [350, 300, 60, 60])
+            plus_text = menu_font.render(('-'), True, black)
+            screen.blit(plus_text,(365 ,310))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if customizeWater > 0:
+                    customizeWater = customizeWater - 10
+        else:
+            pygame.draw.rect(screen, gray2, [350, 300, 60, 60])
+            plus_text = menu_font.render(('-'), True, black)
+            screen.blit(plus_text,(365 ,310))
+
+        screen.blit(menu_font.render((str(customizeWater)+'/100'), True, black),(420,300))
+
+        if mx > 550 and mx < 550 + 60 and my > 300 and my < 360:
+            pygame.draw.rect(screen, gray, [550, 300, 60, 60])
+            plus_text = menu_font.render(('+'), True, black)
+            screen.blit(plus_text,(565 ,310))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if customizeWater < 100:
+                    customizeWater = customizeWater + 10
+        else:
+            pygame.draw.rect(screen, gray2, [550, 300, 60, 60])
+            plus_text = menu_font.render(('+'), True, black)
+            screen.blit(plus_text,(565 ,310))
+
+        if mx > 350 and mx < 350 + 170 and my > 400 and my < 490:
+            pygame.draw.rect(screen, gray, [350, 400, 170, 60])
+            plus_text = menu_font.render(('Finish'), True, black)
+            screen.blit(plus_text,(350, 400))
+            if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                rendermode = 'new'
+                selected = 'custom'
+        else:
+            pygame.draw.rect(screen, gray2, [350, 400, 170, 60])
+            plus_text = menu_font.render(('Finish'), True, black)
+            screen.blit(plus_text,(350, 400))
+
 
     if rendermode == 'load sandbox':
         size = 900
@@ -813,6 +917,22 @@ while True:
                 renderClock = renderClock + 1
             else:
                 rendermode = 'load 2'
+        elif selected == 'custom':
+            if renderClock < size:
+                loadRandom = random.randint(0,100)
+                if loadRandom <= customizeWater:
+                    world.append(water_img)
+                    loading = 'water_img'
+                    worldSav.append('water_img')
+                    worldSavAngle.append(0)
+                else:
+                    world.append(grass1_img)
+                    loading = 'grass1_img'
+                    worldSav.append('grass1_img')
+                    worldSavAngle.append(0)
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'load 2'
         else:
             rendermode = 'new'
             OpenMessage = True
@@ -949,6 +1069,21 @@ while True:
                     treeOffsetY.append((random.randint(0,100)))
                     loading = 'tree_none'
     #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+
+        if selected == 'custom':
+            if renderClock < size * 2:
+                loadRandom = random.randint(customizeTrees,100)
+                if loadRandom <= customizeTrees:
+                    trees.append(tree2_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree2'
+                else:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'                    
                 renderClock = renderClock + 1
             else:
                 rendermode = 'game'
@@ -1202,6 +1337,12 @@ while True:
                 if mx > 110 and mx < 200 and my > sy - 95 and my < sy - 5:
                     place = smallHouse_img
                     placeSav = 'smallHouse_img'
+        if clock.get_fps() < 10:
+            if fpsMessage == True:
+                rendermode = 'pause'
+                os.chdir('html')
+                os.startfile('lowFPS.html')
+                fpsMessage = False
 
     if rendermode == 'pause':
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -1298,49 +1439,10 @@ while True:
         os.chdir('saves')
         f = askopenfile(mode = 'r')
         lines = f.readlines()
-        worldCreate = ['']
-        worldCreate = lines[0]
-        worldCreate.replace("'", ' ')
-        worldCreate = worldCreate.split(',')
-        worldSavAngle = ['']
-        worldSavAngle = lines[1]
-        worldSavAngle.replace("'", ' ')
-        worldSavAngle.replace("[", ' ')
-        worldSavAngle = worldSavAngle.split(',')
-        worldSav = worldCreate
-        worldClock = 1
-        world = []
-        while worldClock < len(worldCreate) - 1:
-            worldCreate[worldClock].replace("[", '')
-            #roads
-            print worldCreate[worldClock]
-            if worldCreate[worldClock] == " 'road_img'":
-                worldPlace = pygame.transform.rotate(road_img, +int(worldSavAngle[worldClock]))
-            if worldCreate[worldClock] == " 'roadTurn_img'":
-                worldPlace = pygame.transform.rotate(roadTurn_img, +int(worldSavAngle[worldClock]))
-            #terraforming
-            if worldCreate[worldClock] == " 'grass_img'":
-                worldPlace = pygame.transform.rotate(grass1_img, +int(worldSavAngle[worldClock]))
-            if worldCreate[worldClock] == " 'water_img'":
-                worldPlace = pygame.transform.rotate(water_img, +int(worldSavAngle[worldClock]))
-            worldSavAngle[worldClock].replace("[", '')
-            worldSavAngle[worldClock].replace('"', '')
-            worldSavAngle[worldClock].replace("'", '')
-            #worldPlace = pygame.transform.rotate(worldPlace, +int(worldSavAngle[worldClock]))
-            worldPlace = (grass1_img)
-            world.append(worldPlace)
-            worldClock = worldClock + 1
-        print world
-        gamex = +int(lines[2])
-        gamey = +int(lines[3])
-        cityName = lines[4]
-        money = 0
-        population = 0
-        f.flush()
-        f.close()
-        saveLoad = ''
-        os.chdir('..')
-        rendermode = 'game'
+        os.chdir(str + (os.getcwd + lines[1]))
 
-    #print clock.get_fps()
+    if devMode == True:
+        screen.blit(fps_text, (0,0))
+
+    pygame.HWSURFACE
     pygame.display.update()
