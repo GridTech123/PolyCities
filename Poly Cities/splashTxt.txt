@@ -1,0 +1,4 @@
+Remember that Poly Cities is alpha.
+Use grass to erase anything.
+If you are experiencing lag make your resolution smaller.
+If you are experiencing lag turn off render trees.

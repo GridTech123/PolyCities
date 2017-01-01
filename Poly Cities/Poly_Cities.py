@@ -47,7 +47,7 @@ clock = pygame.time.Clock()
 #colors
 white = (255, 255, 255)
 black = (0, 0, 0)
-blue = (0, 0, 255)
+blue = (0, 150, 200)
 blue2 = (44, 157, 201)
 blue3 = (8, 140, 196)
 blue4 = (40, 181, 166)
@@ -102,6 +102,8 @@ try:
     buildingsGUI = pygame.image.load('buildingsGUI.png')
     smallHouseGUI_img = pygame.image.load('smallHouseGUI.png')
     smallHouse_img = pygame.image.load('smallHouse.png')
+    logo1_img = pygame.image.load('logo1.png')
+    logo2_img = pygame.image.load('logo2.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -221,54 +223,54 @@ while True:
     if rendermode == 0:
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
         screen.blit(main_back1,((mx-2655)/10,0))
-        title_text = title_font.render(('Poly City'), True, black)
-        screen.blit(title_text,(sx/2 - 250,10))
-        screen.blit(menu1_img, (sx/2 - 250, 150))
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 160 and my < 260:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 160, 400, 100])
+        screen.blit(logo1_img,(sx - 500, sy/2 - 470))
+        pygame.draw.rect(screen, blue3, [sx - 500, sy/2 - 180, 400, 450])
+
+        if mx > sx - 450 and mx < sx - 450 + 300 and my > sy / 2 - 150 and my < sy / 2 - 150 + 90:
+            pygame.draw.rect(screen, blue, [sx - 450, sy / 2 - 150, 300, 90])
             play_text = menu_font.render(('New'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,160))
+            screen.blit(play_text,(sx - 450, sy / 2 - 150))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'new'
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     pygame.time.delay(100) 
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 160, 400, 100])
+            pygame.draw.rect(screen, blue2, [sx - 450, sy / 2 - 150, 300, 90])
             play_text = menu_font.render(('New'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,160))
+            screen.blit(play_text,(sx - 450, sy / 2 - 150))
 
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 280 and my < 380:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 280, 400, 100])
+        if mx > sx - 450 and mx < sx - 450 + 300 and my > sy / 2 - 50 and my < sy / 2 - 50 + 90:
+            pygame.draw.rect(screen, blue, [sx - 450, sy / 2 - 50, 300, 90])
             play_text = menu_font.render(('Load'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,280))
+            screen.blit(play_text,(sx - 450, sy / 2 - 50))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 saveLoad = 'load'
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 280, 400, 100])
+            pygame.draw.rect(screen, blue2, [sx - 450, sy / 2 - 50, 300, 90])
             play_text = menu_font.render(('Load'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,280))
+            screen.blit(play_text,(sx - 450, sy / 2 - 50))
 
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 400 and my < 500:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 400, 400, 100])
+        if mx > sx - 450 and mx < sx - 450 + 300 and my > sy / 2 + 50 and my < sy / 2 + 50 + 90:
+            pygame.draw.rect(screen, blue, [sx - 450, sy / 2 + 50, 300, 90])
             play_text = menu_font.render(('Settings'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,400))
+            screen.blit(play_text,(sx - 450, sy / 2 + 50))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'settings'
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 400, 400, 100])
+            pygame.draw.rect(screen, blue2, [sx - 450, sy / 2 + 50, 300, 90])
             play_text = menu_font.render(('Settings'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,400))
+            screen.blit(play_text,(sx - 450, sy / 2 + 50))
 
-        if mx > sx/2 - 200 and mx < sx/2 - 200 + 400 and my > 520 and my < 620:
-            pygame.draw.rect(screen, gray, [sx/2 - 200, 520, 400, 100])
+        if mx > sx - 450 and mx < sx - 450 + 300 and my > sy / 2 + 150 and my < sy / 2 + 150 + 90:
+            pygame.draw.rect(screen, blue, [sx - 450, sy / 2 + 150, 300, 90])
             play_text = menu_font.render(('Quit'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,520))
+            screen.blit(play_text,(sx - 450, sy / 2 + 150))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 sys.exit()
         else:
-            pygame.draw.rect(screen, gray2, [sx/2 - 200, 520, 400, 100])
+            pygame.draw.rect(screen, blue2, [sx - 450, sy / 2 + 150, 300, 90])
             play_text = menu_font.render(('Quit'), True, black)
-            screen.blit(play_text,(sx/2 - 200 ,520))
+            screen.blit(play_text,(sx - 450, sy / 2 + 150))
 
         if alphaMenu == True:
             pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
@@ -592,17 +594,17 @@ while True:
         else:
             screen.blit(south_img,(sx/2-385, 350))
 
-        pygame.draw.rect(screen, gray3, [sx/2-580-50, 600, 650, 200])
+        pygame.draw.rect(screen, blue3, [sx/2-580-50, 600, 650, 200])
         screen.blit(big_font.render(('Region Attributes'), True, black), (sx/2-580, 600))
 
         if mx > sx/2-580-50 and mx < sx/2-580-50+170 and my > 530 and my < 590:
-            pygame.draw.rect(screen, gray, [sx/2-580-50, 530, 170, 60])
+            pygame.draw.rect(screen, blue, [sx/2-580-50, 530, 170, 60])
             plus_text = menu_font.render(('Customize'), True, black)
             screen.blit(plus_text,(sx/2-580-50, 530))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'customize'
         else:
-            pygame.draw.rect(screen, gray2, [sx/2-580-50, 530, 170, 60])
+            pygame.draw.rect(screen, blue2, [sx/2-580-50, 530, 170, 60])
             plus_text = menu_font.render(('Customize'), True, black)
             screen.blit(plus_text,(sx/2-580-50, 530))
 
@@ -636,39 +638,39 @@ while True:
 
         #cs_text = big_font.render(('COMMING SOON'), True, red)
         #screen.blit(cs_text,(sx / 2 - 580 ,350))
-        pygame.draw.rect(screen, gray3, [sx / 2 + 350, 160, 250, 320])
+        pygame.draw.rect(screen, blue3, [sx / 2 + 350, 160, 250, 320])
         gm_text = menu_font.render(('gamemode:'), True, black)
         screen.blit(gm_text,(sx / 2 + 370, 160))
         if mx > 100 and mx < 160 and my > 100 and my < 160:
-            pygame.draw.rect(screen, gray, [100, 100, 60, 60])
+            pygame.draw.rect(screen, blue, [100, 100, 60, 60])
             plus_text = menu_font.render(('<'), True, black)
             screen.blit(plus_text,(110 ,110))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 0
         else:
-            pygame.draw.rect(screen, gray2, [100, 100, 60, 60])
+            pygame.draw.rect(screen, blue2, [100, 100, 60, 60])
             plus_text = menu_font.render(('<'), True, black)
             screen.blit(plus_text,(110 ,110))
 
         if mx > sx / 2 + 400 and mx < sx / 2 + 550 and my > 270 and my < 320:
-            pygame.draw.rect(screen, gray, [sx / 2 + 400, 270, 150, 60])
+            pygame.draw.rect(screen, blue, [sx / 2 + 400, 270, 150, 60])
             plus_text = menu_font.render(('Sandbox'), True, black)
             screen.blit(plus_text,(sx / 2 + 400 ,270))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load sandbox'
         else:
-            pygame.draw.rect(screen, gray2, [sx / 2 + 400, 270, 150, 60])
+            pygame.draw.rect(screen, blue2, [sx / 2 + 400, 270, 150, 60])
             plus_text = menu_font.render(('Sandbox'), True, black)
             screen.blit(plus_text,(sx / 2 + 400, 270))
 
         if mx > sx / 2 + 400 and mx < sx / 2 + 550 and my > 370 and my < 420:
-            pygame.draw.rect(screen, gray, [sx / 2 + 400, 370, 150, 60])
+            pygame.draw.rect(screen, blue, [sx / 2 + 400, 370, 150, 60])
             plus_text = menu_font.render(('Career'), True, black)
             screen.blit(plus_text,(sx / 2 + 400 ,370))
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 rendermode = 'load career'
         else:
-            pygame.draw.rect(screen, gray2, [sx / 2 + 400, 370, 150, 60])
+            pygame.draw.rect(screen, blue2, [sx / 2 + 400, 370, 150, 60])
             plus_text = menu_font.render(('Career'), True, black)
             screen.blit(plus_text,(sx / 2 + 400, 370))
 
@@ -773,6 +775,9 @@ while True:
         rendermode = 'load'
         population = 0
         money = 'unlimited'
+        SplashFile = open('splashTxt.txt', 'r')
+        SplashFile = SplashFile.readlines()
+        SplashFile = SplashFile[random.randint(0,len(SplashFile) - 1)]
 
     if rendermode == 'load career':
         size = 900
@@ -785,6 +790,9 @@ while True:
         rendermode = 'load'
         population = 0
         money = 100000
+        SplashFile = open('splashTxt.txt', 'r')
+        SplashFile = SplashFile.readlines()
+        SplashFile = SplashFile[random.randint(0,len(SplashFile) - 1)]
 
     #load
     if rendermode == 'load':
@@ -1070,6 +1078,8 @@ while True:
                     loading = 'tree_none'
     #                worldSavTree.append('tree1')
                 renderClock = renderClock + 1
+            else:
+                rendermode = 'game'        
 
         if selected == 'custom':
             if renderClock < size * 2:
@@ -1088,12 +1098,35 @@ while True:
             else:
                 rendermode = 'game'
 
+        if selected == 'both':
+            if renderClock < size * 2:
+                loadRandom = random.randint(0,2)
+                if loadRandom == 0:
+                    trees.append('none')
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree_none'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 1:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree1'
+    #                worldSavTree.append('tree1')
+                if loadRandom == 2:
+                    trees.append(tree1_img)
+                    treeOffsetX.append((random.randint(0,50)))
+                    treeOffsetY.append((random.randint(0,100)))
+                    loading = 'tree2'
+    #                worldSavTree.append('tree1')
+                renderClock = renderClock + 1
+            else:
+                rendermode = 'game'
+
     if rendermode == 'load' or rendermode == 'load 2' or rendermode == 'load 3':
-        if devMode == True:
-            screen.blit(menu_font.render('you are in DevMode', True, black),(sx / 2 - 100, sy / 2))  
-        else:
-            main_back1=pygame.transform.scale(main_back1, (sx, sy))
-            screen.blit(main_back1,(0,0))
+        screen.fill(blue2)
+        screen.blit(logo2_img,(sx/2 - 200, sy/2 - 300))
+        screen.blit(big_font.render(str(SplashFile[0:len(SplashFile)-1]), True, blue3), (sx/2-len(SplashFile) * 16, sy - 350))
         pygame.draw.rect(screen, gray2, [100, sy - 270, 620, 60])
         pygame.draw.rect(screen, blue2, [110, sy - 260, renderClock/3, 40])     
         pygame.draw.rect(screen, gray2, [100, sy - 200, 620, 60])
@@ -1399,47 +1432,87 @@ while True:
             screen.blit(play_text,(sx/2 - 200 ,520))
 
     if saveLoad == 'save':
-        rendermode = 'game'
         os.chdir('saves')
-        os.chdir('saveData')
-        saveTime = time.strftime('%I-%M-%S %p %m-%d-%y')
-        try:
-            os.mkdir(saveTime)
-        except:
-            print ''
-        os.chdir(saveTime)
-
-        pickle_out = open('world.savDat', 'w')
-        pickle.dump(worldSav, pickle_out)
-        pickle_out.close()
-
-        #pickle_out = open('worldAngle.savDat', 'w')
-        #pickle.dump(worldSavAngle, pickle_out)
-        #pickle_out.close()
-
-        pickle_out = open('population.savDat', 'w')
-        pickle.dump(population, pickle_out)
-        pickle_out.close()
-
-        pickle_out = open('money.savDat', 'w')
-        pickle.dump(money, pickle_out)
-        pickle_out.close()
-
-        os.chdir('..')
-        os.chdir('..')
-        
-        pickle_out = open(saveTime+'.sav', 'w')
-        pickle.dump("/saveData/"+str(saveTime), pickle_out)
-        pickle_out.close()
-
-        os.chdir('..')
-        saveLoad = 0
+        fpsMessage = False
+        f = open(time.strftime('%I-%M-%S %p %m-%d-%y')+str('.sav'), 'w')
+        saveClock = 0
+        saveList = []
+        while saveClock < len(world):
+            if world[saveClock] == grass1_img:
+                saveList.append('grass1_img')
+            if world[saveClock] == grass2_img:
+                saveList.append('grass2_img')
+            if world[saveClock] == grass3_img:
+                saveList.append('grass3_img')
+            if world[saveClock] == water_img:
+                saveList.append('water_img')
+            if world[saveClock] == sand_img:
+                saveList.append('sand_img')
+            if world[saveClock] == smallHouse_img:
+                saveList.append('smallHouse_img')
+            saveClock = saveClock + 1
+        else:
+            f.write(str(saveList))
+            f.write('\n')
+            f.write('\n')
+            f.write(str(gamex))
+            f.write('\n')
+            f.write(str(gamey))
+            f.write('\n')
+            f.write(str(money))
+            f.write('\n')
+            f.write(str(population))
+            os.chdir('..')
+            f.close()
+            saveLoad = ''
+            rendermode = 'game'
 
     if saveLoad == 'load':
         os.chdir('saves')
         f = askopenfile(mode = 'r')
-        lines = f.readlines()
-        os.chdir(str + (os.getcwd + lines[1]))
+        lines = f.readline()
+        loadClock = 0
+        loadCurSTR = ''
+        loadSTR = ''
+        try:
+            while not loadCurSTR == '\n':
+                loadSTR = loadSTR + lines[loadClock]
+                loadCurStr = lines[loadClock]
+                loadClock = loadClock + 1
+        except:
+            loadSTR = loadSTR.split(',')
+            try:
+                loadClock = 0
+                world = ['']
+                while True:
+                    if loadSTR[loadClock] == (" 'grass1_img'"):
+                        world.append(grass1_img)
+                    elif loadSTR[loadClock] == (" 'grass2_img'"):
+                        world.append(grass2_img)        
+                    elif loadSTR[loadClock] == (" 'grass3_img'"):
+                        world.append(grass3_img)            
+                    elif loadSTR[loadClock] == (" 'sand_img'"):
+                        world.append(sand_img)    
+                    elif loadSTR[loadClock] == (" 'water_img'"):
+                        world.append(water_img)   
+                    elif loadSTR[loadClock] == (" 'smallHouse_img'"):
+                        world.append(smallHouse_img)   
+                    loadClock = loadClock + 1
+            except:       
+                lines = f.readlines()
+                gamex = int(lines[1].replace('\n', ''))
+                gamey = int(lines[2].replace('\n', ''))
+                money = lines[3].replace('\n', '')
+                population = lines[4].replace('\n', '')
+                size = len(world)
+        os.chdir('..')
+        saveLoad = ''
+        SplashFile = open('splashTxt.txt', 'r')
+        SplashFile = SplashFile.readlines()
+        SplashFile = SplashFile[random.randint(0,len(SplashFile) - 1)]
+        renderClock = 0
+        selected = 'both'
+        rendermode = 'load 2'
 
     if devMode == True:
         screen.blit(fps_text, (0,0))
