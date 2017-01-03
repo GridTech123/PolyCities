@@ -104,6 +104,10 @@ try:
     smallHouse_img = pygame.image.load('smallHouse.png')
     logo1_img = pygame.image.load('logo1.png')
     logo2_img = pygame.image.load('logo2.png')
+    AButton_img = pygame.image.load('A_Button.png')
+    BButton_img = pygame.image.load('B_Button.png')
+    XButton_img = pygame.image.load('X_Button.png')
+    YButton_img = pygame.image.load('Y_Button.png')
     #loading animation
     os.chdir('loading animation')
     loading1 = pygame.image.load("loading1.png")
@@ -150,6 +154,8 @@ alphaMenu = True
 customizeTrees = 50
 customizeWater = 50
 fpsMessage = True
+mousex = 100
+mousey = 100
 
 
 #pygame start
@@ -194,6 +200,14 @@ title_font = pygame.font.SysFont('Calibri', 100)
 pygame.display.set_icon(logo)
 pygame.display.set_caption("Poly City")
 
+#joystick
+pygame.joystick.init()
+try:
+    j = pygame.joystick.Joystick(0)
+    j.init()
+except pygame.error:
+    print 'no joystick found.'
+
 #first time
 try:
     pickle_in = open('firstStart.pcr', 'r')
@@ -219,6 +233,7 @@ while True:
     screen.fill(gray)
     clock.tick(200)
     mx, my = pygame.mouse.get_pos()
+
 
     if rendermode == 0:
         main_back1=pygame.transform.scale(main_back1, (sx * 2, sy))
@@ -272,22 +287,41 @@ while True:
             play_text = menu_font.render(('Quit'), True, black)
             screen.blit(play_text,(sx - 450, sy / 2 + 150))
 
-        if alphaMenu == True:
-            pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
-            screen.blit(menu_font.render('Remember:', True, gray), (sx / 2 - 325, sy / 2 - 100))
-            screen.blit(menu_font.render('Poly Cities is in alpha remember', True, gray), (sx / 2 - 325, sy / 2 - 100 + 30))
-            screen.blit(menu_font.render('that there are bugs and there are', True, gray), (sx / 2 - 325, sy / 2 - 100 + 60))
-            screen.blit(menu_font.render('lots to be added to the game.', True, gray), (sx / 2 - 325, sy / 2 - 100 + 90))
-            if mx > sx / 2 - 325 + 10 and mx < sx / 2 - 325 + 10 + 100 and my > sy / 2 - 100 + 130 and my < sy / 2 - 100 + 130 + 60:
-                pygame.draw.rect(screen, gray, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
-                plus_text = menu_font.render(('Ok'), True, black)
-                screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
-                if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                    alphaMenu = False
-            else:
-                pygame.draw.rect(screen, gray2, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
-                plus_text = menu_font.render(('Ok'), True, black)
-                screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+        if pygame.joystick.get_count() > 0:
+            screen.blit(AButton_img, (sx - 250, sy / 2 - 135))
+            screen.blit(BButton_img, (sx - 250, sy / 2 - 35))
+            screen.blit(XButton_img, (sx - 250, sy / 2 + 65))
+            screen.blit(YButton_img, (sx - 250, sy / 2 + 165))
+            if event.type == pygame.JOYBUTTONDOWN:
+                 if event.button == 0:
+                    rendermode = 'new'   
+            if event.type == pygame.JOYBUTTONDOWN:
+                 if event.button == 1:
+                    saveLoad = 'load'  
+            if event.type == pygame.JOYBUTTONDOWN:
+                 if event.button == 2:
+                    rendermode = 'settings'  
+            if event.type == pygame.JOYBUTTONDOWN:
+                 if event.button == 3:
+                     sys.exit()
+
+
+        #if alphaMenu == True:
+        #    pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
+        #    screen.blit(menu_font.render('Remember:', True, gray), (sx / 2 - 325, sy / 2 - 100))
+        #    screen.blit(menu_font.render('Poly Cities is in alpha remember', True, gray), (sx / 2 - 325, sy / 2 - 100 + 30))
+        #    screen.blit(menu_font.render('that there are bugs and there are', True, gray), (sx / 2 - 325, sy / 2 - 100 + 60))
+        #    screen.blit(menu_font.render('lots to be added to the game.', True, gray), (sx / 2 - 325, sy / 2 - 100 + 90))
+        #    if mx > sx / 2 - 325 + 10 and mx < sx / 2 - 325 + 10 + 100 and my > sy / 2 - 100 + 130 and my < sy / 2 - 100 + 130 + 60:
+        #        pygame.draw.rect(screen, gray, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+        #        plus_text = menu_font.render(('Ok'), True, black)
+        #        screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
+        #        if event.type == MOUSEBUTTONDOWN and event.button == 1:
+        #            alphaMenu = False
+        #    else:
+        #        pygame.draw.rect(screen, gray2, [sx / 2 - 325 + 10, sy / 2 - 100 + 130, 100, 60])
+        #        plus_text = menu_font.render(('Ok'), True, black)
+        #        screen.blit(plus_text,(sx / 2 - 325 + 10, sy / 2 - 100 + 130))
 
     if rendermode == 'firstStart':
         pygame.draw.rect(screen, blue3, [sx / 2 - 325, sy / 2 - 100, 650, 200])
@@ -443,14 +477,18 @@ while True:
 
             if mx > 100 and mx < 370 and my > 570 and my < 630:
                 pygame.draw.rect(screen, gray, [100, 570, 270, 60])
-                plus_text = menu_font.render(('Run Benchmark'), True, black)
+                plus_text = menu_font.render(('Find Joystick'), True, black)
                 screen.blit(plus_text,(100, 570))
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                    os.startfile('benchmarkStarter.py')   
-                    sys.exit()
+                    pygame.joystick.init()
+                    try:
+                        j = pygame.joystick.Joystick(0)
+                        j.init()
+                    except pygame.error:
+                        print 'no joystick found.'
             else:
                 pygame.draw.rect(screen, gray2, [100, 570, 270, 60])
-                plus_text = menu_font.render(('Run Benchmark'), True, black)
+                plus_text = menu_font.render(('Find Joystick'), True, black)
                 screen.blit(plus_text,(100, 570))
 
         #except:
@@ -1263,17 +1301,18 @@ while True:
             if event.key == pygame.K_ESCAPE:   
                 rendermode = 'pause'
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_PLUS:   
-                size = size + 10
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_MINUS:   
-                size = size - 10
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LCTRL:    
-                reload()
+        if pygame.joystick.get_count() > 0:
+            if j.get_axis(0) < -.1:
+                gamex = gamex - j.get_axis(0) * 15             
+            if j.get_axis(0) > .1:
+                gamex = gamex - j.get_axis(0) * 15     
+            if j.get_axis(1) < -.1:
+                gamey = gamey - j.get_axis(1) * 15             
+            if j.get_axis(1) > .1:
+                gamey = gamey - j.get_axis(1) * 15   
+            if event.type == pygame.JOYBUTTONDOWN:
+                 if event.button == 6:
+                    rendermode = 'pause'         
 
         if not place == 'none':
             if event.type == pygame.KEYDOWN:
@@ -1469,53 +1508,68 @@ while True:
 
     if saveLoad == 'load':
         os.chdir('saves')
-        f = askopenfile(mode = 'r')
-        lines = f.readline()
-        loadClock = 0
-        loadCurSTR = ''
-        loadSTR = ''
         try:
-            while not loadCurSTR == '\n':
-                loadSTR = loadSTR + lines[loadClock]
-                loadCurStr = lines[loadClock]
-                loadClock = loadClock + 1
-        except:
-            loadSTR = loadSTR.split(',')
+            f = askopenfile(mode = 'r')
+            lines = f.readline()
+            loadClock = 0
+            loadCurSTR = ''
+            loadSTR = ''
             try:
-                loadClock = 0
-                world = ['']
-                while True:
-                    if loadSTR[loadClock] == (" 'grass1_img'"):
-                        world.append(grass1_img)
-                    elif loadSTR[loadClock] == (" 'grass2_img'"):
-                        world.append(grass2_img)        
-                    elif loadSTR[loadClock] == (" 'grass3_img'"):
-                        world.append(grass3_img)            
-                    elif loadSTR[loadClock] == (" 'sand_img'"):
-                        world.append(sand_img)    
-                    elif loadSTR[loadClock] == (" 'water_img'"):
-                        world.append(water_img)   
-                    elif loadSTR[loadClock] == (" 'smallHouse_img'"):
-                        world.append(smallHouse_img)   
+                while not loadCurSTR == '\n':
+                    loadSTR = loadSTR + lines[loadClock]
+                    loadCurStr = lines[loadClock]
                     loadClock = loadClock + 1
-            except:       
-                lines = f.readlines()
-                gamex = int(lines[1].replace('\n', ''))
-                gamey = int(lines[2].replace('\n', ''))
-                money = lines[3].replace('\n', '')
-                population = lines[4].replace('\n', '')
-                size = len(world)
-        os.chdir('..')
-        saveLoad = ''
-        SplashFile = open('splashTxt.txt', 'r')
-        SplashFile = SplashFile.readlines()
-        SplashFile = SplashFile[random.randint(0,len(SplashFile) - 1)]
-        renderClock = 0
-        selected = 'both'
-        rendermode = 'load 2'
+            except:
+                loadSTR = loadSTR.split(',')
+                try:
+                    loadClock = 0
+                    world = ['']
+                    while True:
+                        if loadSTR[loadClock] == (" 'grass1_img'"):
+                            world.append(grass1_img)
+                        elif loadSTR[loadClock] == (" 'grass2_img'"):
+                            world.append(grass2_img)        
+                        elif loadSTR[loadClock] == (" 'grass3_img'"):
+                            world.append(grass3_img)            
+                        elif loadSTR[loadClock] == (" 'sand_img'"):
+                            world.append(sand_img)    
+                        elif loadSTR[loadClock] == (" 'water_img'"):
+                            world.append(water_img)   
+                        elif loadSTR[loadClock] == (" 'smallHouse_img'"):
+                            world.append(smallHouse_img)   
+                        loadClock = loadClock + 1
+                except:       
+                    lines = f.readlines()
+                    gamex = int(lines[1].replace('\n', ''))
+                    gamey = int(lines[2].replace('\n', ''))
+                    money = lines[3].replace('\n', '')
+                    population = lines[4].replace('\n', '')
+                    size = len(world)
+            os.chdir('..')
+            saveLoad = ''
+            SplashFile = open('splashTxt.txt', 'r')
+            SplashFile = SplashFile.readlines()
+            SplashFile = SplashFile[random.randint(0,len(SplashFile) - 1)]
+            renderClock = 0
+            selected = 'both'
+            rendermode = 'load 2'
+        except:
+            saveLoad = 0
+            os.chdir('..')
 
     if devMode == True:
         screen.blit(fps_text, (0,0))
+
+    #if pygame.joystick.get_count() > 0:
+    #    if j.get_axis(4) < -.1:
+    #        mousex = mousex + j.get_axis(4) * 15    
+    #    if j.get_axis(4) > .1:
+    #        mousex = mousex + j.get_axis(4) * 15    
+    #    if j.get_axis(3) < -.1:
+    #        mousey = mousey + j.get_axis(3) * 15  
+    #    if j.get_axis(3) > .1:
+    #        mousey = mousey + j.get_axis(3) * 15    
+    #    pygame.mouse.set_pos(mousex,mousey)
 
     pygame.HWSURFACE
     pygame.display.update()
